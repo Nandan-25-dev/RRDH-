@@ -4,6 +4,723 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patient Dashboard - RRDC&H</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px 30px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        header h1 {
+            font-size: 28px;
+            color: #667eea;
+        }
+
+        header .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logout-btn, .btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover, .btn:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: #667eea;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 800;
+            margin: 10px 0;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .appointment-item, .prescription-item, .medicine-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s;
+        }
+
+        .appointment-item:hover {
+            background: #efefef;
+        }
+
+        .appointment-item strong {
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-confirmed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-completed {
+            background: #cfe2ff;
+            color: #084298;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #999;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .medicine-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .medicine-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .medicine-card h4 {
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .medicine-card .price {
+            font-size: 18px;
+            font-weight: 700;
+            color: #764ba2;
+            margin: 10px 0;
+        }
+
+        .add-to-cart {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .qty-input {
+            width: 60px;
+            padding: 6px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .cart-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .cart-summary {
+            border-top: 2px solid #ddd;
+            padding-top: 15px;
+            margin-top: 15px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .summary-row.total {
+            font-size: 18px;
+            font-weight: 700;
+            color: #667eea;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+        }
+
+        .payment-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .payment-method {
+            border: 2px solid #ddd;
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .payment-method:hover {
+            border-color: #667eea;
+            background: #f0f3ff;
+        }
+
+        .payment-method.selected {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #667eea;
+        }
+
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .invoice-table th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .invoice-table td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .invoice-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .success {
+            background: #d4edda;
+            color: #155724;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .tabs {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏥 Patient Dashboard</h1>
+            <div class="user-info">
+                <span id="userName" style="color: #667eea; font-weight: 600;"></span>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+        </header>
+
+        <!-- Quick Stats -->
+        <div class="dashboard-grid">
+            <div class="card">
+                <h3>📅 Appointments</h3>
+                <div class="stat-box">
+                    <span class="stat-label">Total Appointments</span>
+                    <span class="stat-number" id="totalAppointments">0</span>
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <div style="flex: 1; background: #fff3cd; padding: 10px; border-radius: 8px; text-align: center;">
+                        <div style="font-size: 20px; color: #856404; font-weight: 700;" id="pendingAppointments">0</div>
+                        <div style="font-size: 11px; color: #856404;">Pending</div>
+                    </div>
+                    <div style="flex: 1; background: #d4edda; padding: 10px; border-radius: 8px; text-align: center;">
+                        <div style="font-size: 20px; color: #155724; font-weight: 700;" id="completedAppointments">0</div>
+                        <div style="font-size: 11px; color: #155724;">Completed</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>💊 Prescriptions</h3>
+                <div class="stat-box">
+                    <span class="stat-label">Total Prescriptions</span>
+                    <span class="stat-number" id="totalPrescriptions">0</span>
+                </div>
+                <button class="btn btn-primary" onclick="showTab('prescriptions')" style="width: 100%; margin-top: 10px;">View All</button>
+            </div>
+
+            <div class="card">
+                <h3>💳 Payments & Invoices</h3>
+                <div class="stat-box">
+                    <span class="stat-label">Outstanding Balance</span>
+                    <span class="stat-number" id="pendingBalance">₹0</span>
+                </div>
+                <button class="btn btn-primary" onclick="showTab('payments')" style="width: 100%; margin-top: 10px;">View Invoices</button>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div style="background: rgba(255, 255, 255, 0.95); border-radius: 15px; padding: 25px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="showTab('appointments')">📅 Upcoming Appointments</button>
+                <button class="tab-btn" onclick="showTab('prescriptions')">💊 Prescriptions</button>
+                <button class="tab-btn" onclick="showTab('medicines')">🛒 Buy Medicine</button>
+                <button class="tab-btn" onclick="showTab('payments')">💰 Invoices & Payment</button>
+            </div>
+
+            <!-- Appointments Tab -->
+            <div id="appointments" class="tab-content active">
+                <h3 style="color: #667eea; margin-bottom: 15px;">📅 Upcoming Appointments</h3>
+                <div id="appointmentsList"></div>
+                <p id="noAppointments" style="text-align: center; color: #999; padding: 20px;">No appointments scheduled.</p>
+            </div>
+
+            <!-- Prescriptions Tab -->
+            <div id="prescriptions" class="tab-content">
+                <h3 style="color: #667eea; margin-bottom: 15px;">💊 Your Prescriptions</h3>
+                <div id="prescriptionsList"></div>
+                <p id="noPrescriptions" style="text-align: center; color: #999; padding: 20px;">No prescriptions available.</p>
+            </div>
+
+            <!-- Medicines Tab -->
+            <div id="medicines" class="tab-content">
+                <h3 style="color: #667eea; margin-bottom: 15px;">🛒 Purchase Medicines</h3>
+                <div id="messageBox"></div>
+                <div id="medicinesList" class="medicine-grid"></div>
+                <div id="cartContainer" class="cart-section" style="display: none; margin-top: 30px;">
+                    <h3 style="color: #667eea; margin-bottom: 15px;">🛒 Shopping Cart</h3>
+                    <div id="cartItems"></div>
+                    <div class="cart-summary">
+                        <div class="summary-row">
+                            <span>Subtotal:</span>
+                            <span id="subtotal">₹0</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Tax (5%):</span>
+                            <span id="taxAmount">₹0</span>
+                        </div>
+                        <div class="summary-row total">
+                            <span>Total:</span>
+                            <span id="cartTotal">₹0</span>
+                        </div>
+                    </div>
+                    <h4 style="margin: 20px 0 15px; color: #667eea;">Payment Method</h4>
+                    <div class="payment-options">
+                        <div class="payment-method" onclick="selectPayment(this, 'Cash on Delivery')">💳 Cash on Delivery</div>
+                        <div class="payment-method" onclick="selectPayment(this, 'Online')">🌐 Online Payment</div>
+                        <div class="payment-method" onclick="selectPayment(this, 'Card')">💰 Credit/Debit Card</div>
+                        <div class="payment-method" onclick="selectPayment(this, 'UPI')">📱 UPI</div>
+                    </div>
+                    <input type="text" id="deliveryAddress" placeholder="Delivery Address (Optional)" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd; margin: 15px 0;">
+                    <button class="btn btn-primary" onclick="checkoutMedicines()" style="width: 100%; padding: 12px; font-size: 16px;">Place Order</button>
+                </div>
+            </div>
+
+            <!-- Payments Tab -->
+            <div id="payments" class="tab-content">
+                <h3 style="color: #667eea; margin-bottom: 15px;">💳 Invoices & Payments</h3>
+                <table class="invoice-table">
+                    <thead>
+                        <tr>
+                            <th>Invoice No.</th>
+                            <th>Date</th>
+                            <th>Amount</th>
+                            <th>Payment Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="invoicesList"></tbody>
+                </table>
+                <p id="noInvoices" style="text-align: center; color: #999; padding: 20px;">No invoices found.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:3000';
+        let cart = [];
+        let selectedPaymentMethod = '';
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadDashboard();
+            await loadMedicines();
+        });
+
+        async function loadDashboard() {
+            try {
+                const response = await fetch(`${API_URL}/api/patient/dashboard`, { credentials: 'include' });
+                if (!response.ok) throw new Error('Failed to load dashboard');
+                
+                const data = await response.json();
+                
+                // Update stats
+                document.getElementById('userName').textContent = `Welcome back! 👋`;
+                document.getElementById('totalAppointments').textContent = data.stats.totalAppointments;
+                document.getElementById('pendingAppointments').textContent = data.stats.pendingAppointments;
+                document.getElementById('completedAppointments').textContent = data.stats.completedAppointments;
+                document.getElementById('totalPrescriptions').textContent = data.stats.totalPrescriptions;
+
+                // Load appointments
+                const appointmentsList = document.getElementById('appointmentsList');
+                if (data.upcomingAppointments && data.upcomingAppointments.length > 0) {
+                    appointmentsList.innerHTML = data.upcomingAppointments.map(apt => `
+                        <div class="appointment-item">
+                            <strong>📅 ${new Date(apt.date).toLocaleDateString()} at ${apt.time || 'TBA'}</strong>
+                            <p>${apt.department} - ${apt.service || 'Consultation'}</p>
+                            <span class="status-badge status-${apt.status.toLowerCase()}">${apt.status}</span>
+                        </div>
+                    `).join('');
+                    document.getElementById('noAppointments').style.display = 'none';
+                } else {
+                    document.getElementById('noAppointments').style.display = 'block';
+                }
+
+                // Load prescriptions
+                const prescriptionsList = document.getElementById('prescriptionsList');
+                if (data.prescriptions && data.prescriptions.length > 0) {
+                    prescriptionsList.innerHTML = data.prescriptions.map(rx => `
+                        <div class="prescription-item">
+                            <strong>💊 Prescribed by Doctor</strong>
+                            <p>Issued: ${new Date(rx.issuedAt).toLocaleDateString()}</p>
+                            <p><small>${rx.notes || 'No notes'}</small></p>
+                        </div>
+                    `).join('');
+                    document.getElementById('noPrescriptions').style.display = 'none';
+                } else {
+                    document.getElementById('noPrescriptions').style.display = 'block';
+                }
+
+                // Load invoices
+                const invoicesResponse = await fetch(`${API_URL}/api/patient/invoices`, { credentials: 'include' });
+                if (invoicesResponse.ok) {
+                    const invoices = await invoicesResponse.json();
+                    let pendingBalance = 0;
+                    const invoicesList = document.getElementById('invoicesList');
+                    if (invoices.length > 0) {
+                        invoicesList.innerHTML = invoices.map(inv => {
+                            if (inv.paymentStatus !== 'Paid') pendingBalance += inv.totalAmount;
+                            return `
+                                <tr>
+                                    <td>${inv.invoiceNumber}</td>
+                                    <td>${new Date(inv.createdAt).toLocaleDateString()}</td>
+                                    <td>₹${inv.totalAmount}</td>
+                                    <td><span class="status-badge status-${inv.paymentStatus.toLowerCase()}">${inv.paymentStatus}</span></td>
+                                    <td><button class="btn" onclick="downloadInvoice('${inv._id}')">Download</button></td>
+                                </tr>
+                            `;
+                        }).join('');
+                        document.getElementById('noInvoices').style.display = 'none';
+                    } else {
+                        document.getElementById('noInvoices').style.display = 'block';
+                    }
+                    document.getElementById('pendingBalance').textContent = '₹' + pendingBalance;
+                }
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+                alert('Error loading dashboard. Please refresh the page.');
+            }
+        }
+
+        async function loadMedicines() {
+            try {
+                const response = await fetch(`${API_URL}/api/medicines`, { credentials: 'include' });
+                if (!response.ok) throw new Error('Failed to load medicines');
+                
+                const medicines = await response.json();
+                const medicinesList = document.getElementById('medicinesList');
+                
+                if (medicines.length > 0) {
+                    medicinesList.innerHTML = medicines.map(med => `
+                        <div class="medicine-card">
+                            <h4>${med.name}</h4>
+                            <p><small>${med.genericName || ''}</small></p>
+                            <p><small>Dosage: ${med.dosage || 'N/A'}</small></p>
+                            <p class="price">₹${med.price}</p>
+                            <div class="add-to-cart">
+                                <input type="number" class="qty-input" min="1" max="${med.quantity}" value="1" id="qty_${med._id}">
+                                <button class="btn btn-primary" onclick="addToCart('${med._id}', '${med.name}', ${med.price})">Add to Cart</button>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    medicinesList.innerHTML = '<p style="text-align: center; grid-column: 1/-1;">No medicines available</p>';
+                }
+            } catch (error) {
+                console.error('Error loading medicines:', error);
+            }
+        }
+
+        function addToCart(medicineId, medicineName, price) {
+            const qty = parseInt(document.getElementById(`qty_${medicineId}`).value) || 1;
+            const existingItem = cart.find(item => item.medicineId === medicineId);
+            
+            if (existingItem) {
+                existingItem.quantity += qty;
+            } else {
+                cart.push({ medicineId, name: medicineName, price, quantity: qty });
+            }
+            
+            updateCart();
+            showMessage('Medicine added to cart!', 'success');
+        }
+
+        function updateCart() {
+            const cartContainer = document.getElementById('cartContainer');
+            const cartItems = document.getElementById('cartItems');
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const tax = Math.round(subtotal * 0.05);
+            const total = subtotal + tax;
+
+            if (cart.length === 0) {
+                cartContainer.style.display = 'none';
+                return;
+            }
+
+            cartContainer.style.display = 'block';
+            cartItems.innerHTML = cart.map((item, index) => `
+                <div class="cart-item">
+                    <div>
+                        <strong>${item.name}</strong>
+                        <p style="font-size: 12px; color: #999;">₹${item.price} x ${item.quantity}</p>
+                    </div>
+                    <div style="text-align: right;">
+                        <p style="font-weight: 700;">₹${item.price * item.quantity}</p>
+                        <button class="btn" onclick="removeFromCart(${index})" style="padding: 5px 10px; font-size: 12px;">Remove</button>
+                    </div>
+                </div>
+            `).join('');
+
+            document.getElementById('subtotal').textContent = '₹' + subtotal;
+            document.getElementById('taxAmount').textContent = '₹' + tax;
+            document.getElementById('cartTotal').textContent = '₹' + total;
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        function selectPayment(element, method) {
+            selectedPaymentMethod = method;
+            document.querySelectorAll('.payment-method').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+        }
+
+        async function checkoutMedicines() {
+            if (cart.length === 0) {
+                showMessage('Cart is empty!', 'error');
+                return;
+            }
+            if (!selectedPaymentMethod) {
+                showMessage('Please select a payment method!', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/api/medicine-order`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({
+                        medicines: cart,
+                        paymentMethod: selectedPaymentMethod,
+                        deliveryAddress: document.getElementById('deliveryAddress').value
+                    })
+                });
+
+                if (!response.ok) throw new Error('Failed to place order');
+                
+                const data = await response.json();
+                showMessage(`Order placed successfully! Order ID: ${data.order.orderNumber}`, 'success');
+                cart = [];
+                updateCart();
+            } catch (error) {
+                showMessage('Error placing order: ' + error.message, 'error');
+            }
+        }
+
+        function downloadInvoice(invoiceId) {
+            window.open(`${API_URL}/api/invoices/${invoiceId}`, '_blank');
+        }
+
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function showMessage(message, type) {
+            const messageBox = document.getElementById('messageBox');
+            messageBox.className = type;
+            messageBox.textContent = message;
+            messageBox.style.display = 'block';
+            setTimeout(() => { messageBox.style.display = 'none'; }, 3000);
+        }
+
+        async function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                await fetch(`${API_URL}/api/patient/logout`, { credentials: 'include' });
+                window.location.href = '/admin/login.html';
+            }
+        }
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Dashboard - RRDC&H</title>
     <style>
         * {
             margin: 0;

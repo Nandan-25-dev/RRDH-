@@ -24,6 +24,9 @@ const Notification = require('./models/Notification');
 const Prescription = require('./models/Prescription');
 const BlogPost = require('./models/BlogPost');
 const Admin = require('./models/Admin');
+const Medicine = require('./models/Medicine');
+const Invoice = require('./models/Invoice');
+const MedicineOrder = require('./models/MedicineOrder');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -371,11 +374,44 @@ app.get('/api/doctor/appointments', requireDoctorLogin, async (req, res) => {
 app.patch('/api/doctor/appointments/:id/status', requireDoctorLogin, async (req, res) => {
   try {
     const { status } = req.body;
+    const allowed = ['Pending', 'Confirmed', 'Completed', 'Cancelled', 'Rejected'];
+    if (!allowed.includes(status)) return res.status(400).json({ error: 'Invalid status' });
+
     const appointment = await Appointment.findByIdAndUpdate(
       req.params.id,
       { status, updatedAt: new Date() },
       { new: true }
     );
+
+    // Send email notification to patient based on status
+    if (appointment.patientEmail) {
+      const doctor = await Doctor.findById(req.session.doctorId);
+      const doctorName = doctor ? `Dr. ${doctor.firstName} ${doctor.lastName}` : 'Doctor';
+
+      if (status === 'Confirmed') {
+        await emailService.sendEmail(
+          appointment.patientEmail,
+          '✅ Your Appointment has been Confirmed',
+          `<h2>Good News!</h2>
+           <p>Your appointment scheduled for <strong>${new Date(appointment.date).toLocaleDateString()}</strong> at <strong>${appointment.time}</strong> has been <strong>CONFIRMED</strong> by ${doctorName}.</p>
+           <p><strong>Department:</strong> ${appointment.department}</p>
+           <p><strong>Service:</strong> ${appointment.service || 'Consultation'}</p>
+           <p>Please arrive 10 minutes early. If you need to reschedule, contact us as soon as possible.</p>
+           <p>Appointment ID: ${appointment._id}</p>`
+        );
+      } else if (status === 'Rejected' || status === 'Cancelled') {
+        await emailService.sendEmail(
+          appointment.patientEmail,
+          '❌ Your Appointment has been ' + status,
+          `<h2>Appointment ${status}</h2>
+           <p>Unfortunately, your appointment scheduled for <strong>${new Date(appointment.date).toLocaleDateString()}</strong> has been <strong>${status}</strong> by the doctor.</p>
+           <p><strong>Reason:</strong> Please contact us for more details.</p>
+           <p>You can book another appointment at your convenience.</p>
+           <p>Appointment ID: ${appointment._id}</p>`
+        );
+      }
+    }
+
     res.json(appointment);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -438,7 +474,7 @@ app.post('/api/appointments', async (req, res) => {
 
       await appointment.save();
 
-      // Send confirmation email
+      // Send confirmation email to patient
       const doctorName = doctor ? `Dr. ${doctor.firstName} ${doctor.lastName}` : 'Doctor';
       await emailService.sendAppointmentConfirmation(
         patient.email,
@@ -451,6 +487,24 @@ app.post('/api/appointments', async (req, res) => {
           appointmentId: appointment._id
         }
       );
+
+      // Send notification email to doctor about new appointment
+      if (doctor && doctor.email) {
+        await emailService.sendEmail(
+          doctor.email,
+          '📅 New Appointment Booking',
+          `<h2>New Appointment Request</h2>
+           <p><strong>Patient Name:</strong> ${patient.firstName} ${patient.lastName}</p>
+           <p><strong>Contact:</strong> ${patient.phone}</p>
+           <p><strong>Date:</strong> ${new Date(date).toLocaleDateString()}</p>
+           <p><strong>Time:</strong> ${time}</p>
+           <p><strong>Service:</strong> ${service.name}</p>
+           <p><strong>Department:</strong> ${service.category || 'General'}</p>
+           <p><strong>Reason:</strong> ${reason || 'Not specified'}</p>
+           <p>Please log in to your dashboard to confirm or reject this appointment.</p>
+           <p>Appointment ID: ${appointment._id}</p>`
+        );
+      }
 
       res.status(201).json({ success: true, appointmentId: appointment._id, message: 'Appointment booked successfully!' });
     } else {
@@ -832,6 +886,23 @@ app.patch('/api/admin/appointments/:id', requireAdmin, async (req, res) => {
       { status, updatedAt: new Date() },
       { new: true }
     );
+
+    // Send email notification to patient if status changes
+    if (appointment.patientEmail && (status === 'Confirmed' || status === 'Cancelled')) {
+      const message = status === 'Confirmed' 
+        ? `<h2>✅ Appointment Confirmed</h2>
+           <p>Your appointment scheduled for <strong>${new Date(appointment.date).toLocaleDateString()}</strong> at <strong>${appointment.time}</strong> has been <strong>CONFIRMED</strong>.</p>`
+        : `<h2>❌ Appointment Cancelled</h2>
+           <p>Your appointment scheduled for <strong>${new Date(appointment.date).toLocaleDateString()}</strong> has been <strong>CANCELLED</strong>.</p>`;
+
+      await emailService.sendEmail(
+        appointment.patientEmail,
+        `Appointment ${status === 'Confirmed' ? 'Confirmed ✅' : 'Cancelled ❌'}`,
+        message + `<p><strong>Department:</strong> ${appointment.department}</p>
+                  <p><strong>Service:</strong> ${appointment.service || 'Consultation'}</p>
+                  <p>Appointment ID: ${appointment._id}</p>`
+      );
+    }
 
     res.json({ success: true, appointment });
   } catch (error) {
@@ -1280,7 +1351,461 @@ app.post('/api/email/prescription/:prescriptionId', requireAdmin, async (req, re
   }
 });
 
-/* Send feedback response email */
+/* ============================================================
+   DASHBOARDS
+   ============================================================ */
+
+/* PATIENT DASHBOARD */
+app.get('/api/patient/dashboard', requirePatientLogin, async (req, res) => {
+  try {
+    const patientId = req.session.patientId;
+    const dashboardData = {
+      upcomingAppointments: await Appointment.find({ patientId, status: { $in: ['Pending', 'Confirmed'] } }).sort({ date: 1 }).limit(5).lean(),
+      pastAppointments: await Appointment.find({ patientId, status: 'Completed' }).sort({ date: -1 }).limit(5).lean(),
+      prescriptions: await Prescription.find({ patientId }).sort({ issuedAt: -1 }).limit(5).lean(),
+      payments: await Payment.find({ patientId }).sort({ createdAt: -1 }).limit(5).lean(),
+      notifications: await Notification.find({ recipientId: patientId }).sort({ sentAt: -1 }).limit(10).lean(),
+      stats: {
+        totalAppointments: await Appointment.countDocuments({ patientId }),
+        completedAppointments: await Appointment.countDocuments({ patientId, status: 'Completed' }),
+        pendingAppointments: await Appointment.countDocuments({ patientId, status: 'Pending' }),
+        totalPrescriptions: await Prescription.countDocuments({ patientId })
+      }
+    };
+    res.json(dashboardData);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+/* DOCTOR DASHBOARD */
+app.get('/api/doctor/dashboard', requireDoctorLogin, async (req, res) => {
+  try {
+    const doctorId = req.session.doctorId;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    const dashboardData = {
+      todayAppointments: await Appointment.find({ doctorId, date: { $gte: today, $lt: tomorrow } }).sort({ time: 1 }).lean(),
+      upcomingAppointments: await Appointment.find({ doctorId, status: { $in: ['Pending', 'Confirmed'] }, date: { $gte: today } }).sort({ date: 1 }).limit(10).lean(),
+      completedAppointments: await Appointment.find({ doctorId, status: 'Completed' }).sort({ date: -1 }).limit(5).lean(),
+      doctorInfo: await Doctor.findById(doctorId).select('-password').lean(),
+      stats: {
+        totalAppointments: await Appointment.countDocuments({ doctorId }),
+        todayAppointments: await Appointment.countDocuments({ doctorId, date: { $gte: today, $lt: tomorrow } }),
+        completedAppointments: await Appointment.countDocuments({ doctorId, status: 'Completed' }),
+        pendingAppointments: await Appointment.countDocuments({ doctorId, status: 'Pending' }),
+        confirmedAppointments: await Appointment.countDocuments({ doctorId, status: 'Confirmed' })
+      }
+    };
+    res.json(dashboardData);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+/* STUDENT DASHBOARD */
+app.get('/api/student/dashboard', requirePatientLogin, async (req, res) => {
+  try {
+    const studentId = req.session.patientId;
+    
+    // Assuming student data is stored in Patient model with studentInfo
+    const studentData = await Patient.findById(studentId).lean();
+    
+    const dashboardData = {
+      studentInfo: {
+        name: studentData.firstName + ' ' + studentData.lastName,
+        email: studentData.email,
+        studentId: studentData.studentId || 'Not Set'
+      },
+      academicStats: {
+        attendance: 85,
+        internalMarks: 72,
+        clinicalQuota: 45,
+        totalProcedures: 100
+      },
+      upcomingRotations: [],
+      simulationLabBookings: [],
+      certificates: [],
+      feedbackFromFaculty: [],
+      stats: {
+        totalClinicalHours: 240,
+        completedProcedures: 45,
+        pendingAssignments: 3,
+        courses: 8
+      }
+    };
+    res.json(dashboardData);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+/* ============================================================
+   MEDICINE & PHARMACY
+   ============================================================ */
+
+/* ADMIN - Seed demo medicines */
+app.post('/api/admin/seed-medicines', requireAdmin, async (req, res) => {
+  try {
+    const count = await Medicine.countDocuments();
+    if (count > 0) {
+      return res.json({ message: 'Medicines already exist', count });
+    }
+
+    const sampleMedicines = [
+      {
+        name: 'Amoxicillin',
+        genericName: 'Amoxicillin Trihydrate',
+        manufacturer: 'Cipla Ltd',
+        price: 180,
+        quantity: 500,
+        dosage: '500mg',
+        type: 'Antibiotic',
+        description: 'Broad-spectrum antibiotic for bacterial infections and dental procedures',
+        sideEffects: 'Allergic reactions, upset stomach, nausea',
+        warnings: 'Not for patients with penicillin allergy',
+        expiryDate: new Date('2026-12-31'),
+        batchNumber: 'LOT2026001',
+        stockAlert: 20,
+        isActive: true
+      },
+      {
+        name: 'Ibuprofen',
+        genericName: 'Ibuprofen',
+        manufacturer: 'Lupin Limited',
+        price: 120,
+        quantity: 300,
+        dosage: '400mg',
+        type: 'Analgesic',
+        description: 'Pain reliever and anti-inflammatory for dental pain',
+        sideEffects: 'Stomach upset, dizziness, headache',
+        warnings: 'Not recommended for patients with stomach ulcers',
+        expiryDate: new Date('2026-11-30'),
+        batchNumber: 'LOT2026002',
+        stockAlert: 15,
+        isActive: true
+      },
+      {
+        name: 'Metronidazole',
+        genericName: 'Metronidazole',
+        manufacturer: 'Ranbaxy Laboratories',
+        price: 200,
+        quantity: 250,
+        dosage: '400mg',
+        type: 'Antibiotic',
+        description: 'Effective against anaerobic bacteria and protozoal infections',
+        sideEffects: 'Metallic taste, nausea, dark urine',
+        warnings: 'Avoid alcohol consumption during treatment',
+        expiryDate: new Date('2026-10-31'),
+        batchNumber: 'LOT2026003',
+        stockAlert: 15,
+        isActive: true
+      },
+      {
+        name: 'Cetirizine',
+        genericName: 'Cetirizine Hydrochloride',
+        manufacturer: 'Torrent Pharmaceuticals',
+        price: 150,
+        quantity: 400,
+        dosage: '10mg',
+        type: 'Antihistamine',
+        description: 'Antihistamine for allergic reactions and oral allergy relief',
+        sideEffects: 'Drowsiness, headache, dry mouth',
+        warnings: 'Avoid operating machinery',
+        expiryDate: new Date('2027-06-30'),
+        batchNumber: 'LOT2026004',
+        stockAlert: 20,
+        isActive: true
+      },
+      {
+        name: 'Paracetamol',
+        genericName: 'Acetaminophen',
+        manufacturer: 'GlaxoSmithKline',
+        price: 100,
+        quantity: 600,
+        dosage: '500mg',
+        type: 'Analgesic',
+        description: 'Fever reducer and mild pain reliever',
+        sideEffects: 'Rare allergic reactions, liver damage in overdose',
+        warnings: 'Do not exceed recommended dosage',
+        expiryDate: new Date('2027-03-31'),
+        batchNumber: 'LOT2026005',
+        stockAlert: 25,
+        isActive: true
+      },
+      {
+        name: 'Chlorhexidine',
+        genericName: 'Chlorhexidine Gluconate',
+        manufacturer: 'Colgate Palmolive',
+        price: 250,
+        quantity: 150,
+        dosage: '0.12%',
+        type: 'Antimicrobial',
+        description: 'Oral rinse for gingivitis and periodontal disease prevention',
+        sideEffects: 'Staining of teeth and tongue, altered taste',
+        warnings: 'Not for long-term daily use beyond 2 weeks',
+        expiryDate: new Date('2027-09-30'),
+        batchNumber: 'LOT2026006',
+        stockAlert: 10,
+        isActive: true
+      },
+      {
+        name: 'Tetracycline',
+        genericName: 'Tetracycline Hydrochloride',
+        manufacturer: 'Sun Pharmaceutical',
+        price: 220,
+        quantity: 200,
+        dosage: '250mg',
+        type: 'Antibiotic',
+        description: 'Broad-spectrum antibiotic for severe dental infections',
+        sideEffects: 'Photosensitivity, nausea, discoloration',
+        warnings: 'Avoid in pregnancy and children under 12',
+        expiryDate: new Date('2026-08-31'),
+        batchNumber: 'LOT2026007',
+        stockAlert: 12,
+        isActive: true
+      },
+      {
+        name: 'Dexamethasone',
+        genericName: 'Dexamethasone',
+        manufacturer: 'Merck',
+        price: 180,
+        quantity: 100,
+        dosage: '0.5mg',
+        type: 'Corticosteroid',
+        description: 'Anti-inflammatory corticosteroid for severe swelling',
+        sideEffects: 'Increased appetite, insomnia, mood changes',
+        warnings: 'Short-term use only, consult doctor before use',
+        expiryDate: new Date('2026-12-31'),
+        batchNumber: 'LOT2026008',
+        stockAlert: 8,
+        isActive: true
+      }
+    ];
+
+    const created = await Medicine.insertMany(sampleMedicines);
+    res.json({ success: true, message: 'Medicines seeded successfully', count: created.length });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+/* GET all medicines */
+app.get('/api/medicines', async (req, res) => {
+  try {
+    const medicines = await Medicine.find({ isActive: true }).lean();
+    res.json(medicines);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+/* GET medicine by ID */
+app.get('/api/medicines/:id', async (req, res) => {
+  try {
+    const medicine = await Medicine.findById(req.params.id).lean();
+    if (!medicine) return res.status(404).json({ error: 'Medicine not found' });
+    res.json(medicine);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+/* ADMIN - Create medicine */
+app.post('/api/admin/medicines', requireAdmin, async (req, res) => {
+  try {
+    const medicine = new Medicine(req.body);
+    await medicine.save();
+    res.status(201).json({ success: true, medicine });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+/* ADMIN - Update medicine */
+app.patch('/api/admin/medicines/:id', requireAdmin, async (req, res) => {
+  try {
+    const medicine = await Medicine.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    res.json(medicine);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+/* PATIENT - Place medicine order */
+app.post('/api/medicine-order', requirePatientLogin, async (req, res) => {
+  try {
+    const { medicines, paymentMethod, deliveryAddress } = req.body;
+    if (!medicines || medicines.length === 0) {
+      return res.status(400).json({ error: 'No medicines selected' });
+    }
+
+    const patient = await Patient.findById(req.session.patientId);
+    let totalAmount = 0;
+    const orderMedicines = [];
+
+    for (const item of medicines) {
+      const medicine = await Medicine.findById(item.medicineId);
+      if (!medicine) {
+        return res.status(404).json({ error: `Medicine ${item.medicineId} not found` });
+      }
+
+      const itemTotal = medicine.price * item.quantity;
+      totalAmount += itemTotal;
+      orderMedicines.push({
+        medicineId: medicine._id,
+        name: medicine.name,
+        quantity: item.quantity,
+        dosage: medicine.dosage,
+        price: medicine.price,
+        subtotal: itemTotal
+      });
+    }
+
+    const medicineOrder = new MedicineOrder({
+      orderNumber: `MED-${Date.now()}`,
+      patientId: req.session.patientId,
+      medicines: orderMedicines,
+      totalAmount,
+      paymentMethod,
+      deliveryAddress: deliveryAddress || patient.address,
+      estimatedDelivery: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000)
+    });
+
+    await medicineOrder.save();
+
+    // Send confirmation email
+    await emailService.sendEmail(
+      patient.email,
+      '💊 Medicine Order Placed Successfully',
+      `<h2>Order Confirmation</h2>
+       <p>Your medicine order has been placed successfully.</p>
+       <p><strong>Order Number:</strong> ${medicineOrder.orderNumber}</p>
+       <p><strong>Total Amount:</strong> ₹${totalAmount}</p>
+       <p><strong>Estimated Delivery:</strong> ${medicineOrder.estimatedDelivery.toLocaleDateString()}</p>
+       <p><strong>Payment Method:</strong> ${paymentMethod}</p>
+       <p>You will receive updates on your order status.</p>`
+    );
+
+    res.status(201).json({ success: true, order: medicineOrder });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+/* PATIENT - Get medicine orders */
+app.get('/api/patient/medicine-orders', requirePatientLogin, async (req, res) => {
+  try {
+    const orders = await MedicineOrder.find({ patientId: req.session.patientId })
+      .sort({ createdAt: -1 })
+      .populate('medicines.medicineId')
+      .lean();
+    res.json(orders);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+/* ============================================================
+   INVOICES
+   ============================================================ */
+
+/* ADMIN - Create invoice */
+app.post('/api/admin/invoices', requireAdmin, async (req, res) => {
+  try {
+    const { patientId, appointmentId, items, paymentMethod, notes } = req.body;
+    
+    let subtotal = 0;
+    items.forEach(item => {
+      subtotal += item.amount;
+    });
+
+    const tax = Math.round(subtotal * 0.05); // 5% tax
+    const totalAmount = subtotal + tax;
+
+    const invoice = new Invoice({
+      invoiceNumber: `INV-${Date.now()}`,
+      patientId,
+      appointmentId,
+      items,
+      subtotal,
+      tax,
+      totalAmount,
+      paymentMethod,
+      paymentStatus: 'Pending',
+      dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      notes,
+      issuedBy: req.session.adminId
+    });
+
+    await invoice.save();
+
+    // Send invoice email
+    const patient = await Patient.findById(patientId);
+    if (patient) {
+      await emailService.sendEmail(
+        patient.email,
+        '📄 Invoice Generated',
+        `<h2>Your Invoice</h2>
+         <p><strong>Invoice Number:</strong> ${invoice.invoiceNumber}</p>
+         <p><strong>Subtotal:</strong> ₹${subtotal}</p>
+         <p><strong>Tax (5%):</strong> ₹${tax}</p>
+         <p><strong>Total Amount:</strong> ₹${totalAmount}</p>
+         <p><strong>Payment Status:</strong> ${invoice.paymentStatus}</p>
+         <p><strong>Due Date:</strong> ${invoice.dueDate.toLocaleDateString()}</p>
+         <p>Please log in to your dashboard to make payment.</p>`
+      );
+    }
+
+    res.status(201).json({ success: true, invoice });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+/* GET patient invoices */
+app.get('/api/patient/invoices', requirePatientLogin, async (req, res) => {
+  try {
+    const invoices = await Invoice.find({ patientId: req.session.patientId })
+      .sort({ createdAt: -1 })
+      .lean();
+    res.json(invoices);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+/* GET invoice by ID */
+app.get('/api/invoices/:id', async (req, res) => {
+  try {
+    const invoice = await Invoice.findById(req.params.id).lean();
+    if (!invoice) return res.status(404).json({ error: 'Invoice not found' });
+    res.json(invoice);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+/* UPDATE invoice payment status */
+app.patch('/api/admin/invoices/:id', requireAdmin, async (req, res) => {
+  try {
+    const { paymentStatus } = req.body;
+    const invoice = await Invoice.findByIdAndUpdate(
+      req.params.id,
+      { paymentStatus, paidDate: paymentStatus === 'Paid' ? new Date() : null },
+      { new: true }
+    );
+    res.json(invoice);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+/* ============================================================
+   SEND FEEDBACK RESPONSE EMAIL */
 app.post('/api/email/feedback-response/:feedbackId', requireAdmin, async (req, res) => {
   try {
     const { responseMessage } = req.body;

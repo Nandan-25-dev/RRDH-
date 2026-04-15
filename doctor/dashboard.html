@@ -4,6 +4,435 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doctor Dashboard - RRDC&H</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px 30px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        header h1 {
+            font-size: 28px;
+            color: #667eea;
+        }
+
+        .logout-btn, .btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover, .btn:hover {
+            background: #c0392b;
+        }
+
+        .btn-primary {
+            background: #667eea;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+        }
+
+        .btn-success {
+            background: #27ae60;
+        }
+
+        .btn-success:hover {
+            background: #229954;
+        }
+
+        .btn-danger {
+            background: #e74c3c;
+        }
+
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .stat-number {
+            font-size: 40px;
+            font-weight: 800;
+            margin: 10px 0;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #999;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .tab-btn.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .appointment-list {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .appointment-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .appointment-info h4 {
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+
+        .appointment-detail {
+            font-size: 13px;
+            color: #666;
+            margin: 4px 0;
+        }
+
+        .appointment-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-confirmed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-completed {
+            background: #cfe2ff;
+            color: #084298;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .appointment-card {
+                grid-template-columns: 1fr;
+            }
+
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .tabs {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⚕️ Doctor Dashboard</h1>
+            <div style="display: flex; gap: 20px; align-items: center;">
+                <span id="doctorName" style="color: #667eea; font-weight: 600;"></span>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+        </header>
+
+        <!-- Quick Stats -->
+        <div class="dashboard-grid">
+            <div class="card">
+                <h3 style="color: #667eea; margin-bottom: 15px;">📅 Today's Appointments</h3>
+                <div class="stat-box">
+                    <span class="stat-label">Scheduled Today</span>
+                    <span class="stat-number" id="todayCount">0</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 style="color: #667eea; margin-bottom: 15px;">⏳ Pending Confirmation</h3>
+                <div class="stat-box">
+                    <span class="stat-label">Waiting for Response</span>
+                    <span class="stat-number" id="pendingCount">0</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 style="color: #667eea; margin-bottom: 15px;">✅ Completed</h3>
+                <div class="stat-box">
+                    <span class="stat-label">This Month</span>
+                    <span class="stat-number" id="completedCount">0</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 style="color: #667eea; margin-bottom: 15px;">👥 Total Appointments</h3>
+                <div class="stat-box">
+                    <span class="stat-label">All Time</span>
+                    <span class="stat-number" id="totalCount">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('today')">📅 Today's Appointments</button>
+            <button class="tab-btn" onclick="showTab('upcoming')">📋 Upcoming</button>
+            <button class="tab-btn" onclick="showTab('completed')">✅ Completed</button>
+        </div>
+
+        <!-- Today's Tab -->
+        <div id="today" class="tab-content active">
+            <div class="appointment-list">
+                <h3 style="color: #667eea; margin-bottom: 20px;">📅 Today's Schedule</h3>
+                <div id="todayList"></div>
+                <div id="noToday" class="no-data">No appointments scheduled for today.</div>
+            </div>
+        </div>
+
+        <!-- Upcoming Tab -->
+        <div id="upcoming" class="tab-content" style="display: none;">
+            <div class="appointment-list">
+                <h3 style="color: #667eea; margin-bottom: 20px;">📋 Upcoming Appointments</h3>
+                <div id="upcomingList"></div>
+                <div id="noUpcoming" class="no-data">No upcoming appointments.</div>
+            </div>
+        </div>
+
+        <!-- Completed Tab -->
+        <div id="completed" class="tab-content" style="display: none;">
+            <div class="appointment-list">
+                <h3 style="color: #667eea; margin-bottom: 20px;">✅ Completed Appointments</h3>
+                <div id="completedList"></div>
+                <div id="noCompleted" class="no-data">No completed appointments.</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:3000';
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadDashboard();
+        });
+
+        async function loadDashboard() {
+            try {
+                const response = await fetch(`${API_URL}/api/doctor/dashboard`, { credentials: 'include' });
+                if (!response.ok) throw new Error('Unauthorized');
+                
+                const data = await response.json();
+                
+                // Update doctor name
+                if (data.doctorInfo) {
+                    document.getElementById('doctorName').textContent = `Dr. ${data.doctorInfo.firstName} ${data.doctorInfo.lastName}`;
+                }
+
+                // Update stats
+                document.getElementById('todayCount').textContent = data.stats.todayAppointments;
+                document.getElementById('pendingCount').textContent = data.stats.pendingAppointments;
+                document.getElementById('completedCount').textContent = data.stats.completedAppointments;
+                document.getElementById('totalCount').textContent = data.stats.totalAppointments;
+
+                // Load today's appointments
+                loadAppointmentsList('todayList', 'noToday', data.todayAppointments);
+
+                // Load upcoming appointments
+                loadAppointmentsList('upcomingList', 'noUpcoming', data.upcomingAppointments);
+
+                // Load completed appointments
+                loadAppointmentsList('completedList', 'noCompleted', data.completedAppointments);
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+                alert('Error loading dashboard. Please refresh.');
+            }
+        }
+
+        function loadAppointmentsList(listId, noDataId, appointments) {
+            const list = document.getElementById(listId);
+            const noData = document.getElementById(noDataId);
+
+            if (!appointments || appointments.length === 0) {
+                list.innerHTML = '';
+                noData.style.display = 'block';
+                return;
+            }
+
+            noData.style.display = 'none';
+            list.innerHTML = appointments.map(apt => `
+                <div class="appointment-card">
+                    <div class="appointment-info">
+                        <h4>👤 ${apt.patientName}</h4>
+                        <div class="appointment-detail"><strong>📅 Date:</strong> ${new Date(apt.date).toLocaleDateString()} at ${apt.time || 'TBA'}</div>
+                        <div class="appointment-detail"><strong>📞 Phone:</strong> ${apt.patientPhone}</div>
+                        <div class="appointment-detail"><strong>🏥 Department:</strong> ${apt.department}</div>
+                        <div class="appointment-detail"><strong>💊 Service:</strong> ${apt.service || 'Consultation'}</div>
+                        <div class="appointment-detail"><strong>📝 Reason:</strong> ${apt.reason || 'Not specified'}</div>
+                        <span class="status-badge status-${apt.status.toLowerCase()}">${apt.status}</span>
+                    </div>
+                    <div class="appointment-actions" style="display: flex; flex-direction: column; gap: 8px;">
+                        ${apt.status === 'Pending' ? `
+                            <button class="btn btn-success" onclick="updateAppointmentStatus('${apt._id}', 'Confirmed')">✅ Confirm</button>
+                            <button class="btn btn-danger" onclick="updateAppointmentStatus('${apt._id}', 'Rejected')">❌ Reject</button>
+                        ` : ''}
+                        ${apt.status === 'Confirmed' ? `
+                            <button class="btn btn-primary" onclick="updateAppointmentStatus('${apt._id}', 'Completed')">✔️ Mark Completed</button>
+                        ` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function updateAppointmentStatus(appointmentId, status) {
+            try {
+                const response = await fetch(`${API_URL}/api/doctor/appointments/${appointmentId}/status`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ status })
+                });
+
+                if (!response.ok) throw new Error('Failed to update appointment');
+                
+                alert(`Appointment ${status} successfully! Email sent to patient.`);
+                await loadDashboard();
+            } catch (error) {
+                alert('Error updating appointment: ' + error.message);
+            }
+        }
+
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabName).style.display = 'block';
+            event.target.classList.add('active');
+        }
+
+        async function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                await fetch(`${API_URL}/api/doctor/logout`, { credentials: 'include' });
+                window.location.href = '/admin/login.html';
+            }
+        }
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Dashboard - RRDC&H</title>
     <style>
         * {
             margin: 0;

@@ -267,6 +267,13 @@
   </div>
 
   <script>
+    // Auto-select tab from URL parameter
+    function autoSelectTab() {
+      const params = new URLSearchParams(window.location.search);
+      const tabName = params.get('tab') || 'patient';
+      switchTab(tabName, null);
+    }
+
     function switchTab(tab, e) {
       if (e) e.preventDefault();
       // Hide all tabs
@@ -274,9 +281,14 @@
       document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
       
       // Show selected tab
-      document.getElementById(tab).classList.add('active');
-      e.target.classList.add('active');
+      const tabEl = document.getElementById(tab);
+      const btnEl = document.querySelector(`[onclick="switchTab('${tab}', event)"]`);
+      if (tabEl) tabEl.classList.add('active');
+      if (btnEl) btnEl.classList.add('active');
     }
+    
+    // Auto-select tab on page load
+    document.addEventListener('DOMContentLoaded', autoSelectTab);
 
     // PATIENT LOGIN
     document.getElementById('patientLoginForm')?.addEventListener('submit', async (e) => {

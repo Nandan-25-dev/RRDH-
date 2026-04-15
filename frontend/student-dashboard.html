@@ -1,6 +1,518 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - RRDC&H</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px 30px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        header h1 {
+            font-size: 28px;
+            color: #667eea;
+        }
+
+        header .info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 5px;
+        }
+
+        .logout-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .logout-btn:hover {
+            background: #c0392b;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: 800;
+            margin: 10px 0;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #999;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .tab-btn.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .content-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .item-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .item h4 {
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .item-detail {
+            font-size: 12px;
+            color: #666;
+            margin: 3px 0;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+
+        .badge-success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .badge-warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .badge-primary {
+            background: #cfe2ff;
+            color: #084298;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+        }
+
+        .btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            background: #5568d3;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            header .info {
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎓 Student Dashboard</h1>
+            <div class="info">
+                <div>
+                    <div style="color: #667eea; font-weight: 600;" id="studentName">Student Name</div>
+                    <small style="color: #999;" id="studentId">ID: Loading...</small>
+                </div>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+        </header>
+
+        <!-- Quick Stats -->
+        <div class="dashboard-grid">
+            <div class="card">
+                <h3>📚 Overall Attendance</h3>
+                <div class="stat-box">
+                    <span class="stat-number" id="attendance">85%</span>
+                    <span class="stat-label">Min 75% Required</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 85%;"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>📊 Internal Marks</h3>
+                <div class="stat-box">
+                    <span class="stat-number" id="marks">72%</span>
+                    <span class="stat-label">Latest Exam Average</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 72%;"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>🦷 Clinical Quota</h3>
+                <div class="stat-box">
+                    <span class="stat-number" id="procedures">45/100</span>
+                    <span class="stat-label">Procedures Completed</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 45%;"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>⏰ Clinical Hours</h3>
+                <div class="stat-box">
+                    <span class="stat-number" id="hours">240</span>
+                    <span class="stat-label">Total Hours Logged</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 80%;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('academics')">📚 Academics</button>
+            <button class="tab-btn" onclick="showTab('clinical')">🦷 Clinical</button>
+            <button class="tab-btn" onclick="showTab('rotations')">🔄 Department Rotations</button>
+            <button class="tab-btn" onclick="showTab('lab-bookings')">🔬 Lab Bookings</button>
+            <button class="tab-btn" onclick="showTab('certificates')">📜 Certificates</button>
+        </div>
+
+        <!-- Academics Tab -->
+        <div id="academics" class="tab-content active">
+            <div class="content-card">
+                <h3 style="color: #667eea; margin-bottom: 20px;">📚 Academic Performance</h3>
+                <div class="item-list">
+                    <div class="item">
+                        <h4>Oral Pathology</h4>
+                        <div class="item-detail"><strong>Internal:</strong> 72/100</div>
+                        <div class="item-detail"><strong>Assignment:</strong> 18/20</div>
+                        <span class="badge badge-success">Passed</span>
+                    </div>
+                    <div class="item">
+                        <h4>Conservative Dentistry</h4>
+                        <div class="item-detail"><strong>Internal:</strong> 68/100</div>
+                        <div class="item-detail"><strong>Assignment:</strong> 16/20</div>
+                        <span class="badge badge-warning">Need Improvement</span>
+                    </div>
+                    <div class="item">
+                        <h4>Prosthodontics</h4>
+                        <div class="item-detail"><strong>Internal:</strong> 78/100</div>
+                        <div class="item-detail"><strong>Assignment:</strong> 19/20</div>
+                        <span class="badge badge-success">Excellent</span>
+                    </div>
+                    <div class="item">
+                        <h4>Periodontics</h4>
+                        <div class="item-detail"><strong>Internal:</strong> 75/100</div>
+                        <div class="item-detail"><strong>Assignment:</strong> 17/20</div>
+                        <span class="badge badge-success">Good</span>
+                    </div>
+                </div>
+                <p id="noAcademics" class="no-data" style="display: none;">No academic records available.</p>
+            </div>
+        </div>
+
+        <!-- Clinical Tab -->
+        <div id="clinical" class="tab-content">
+            <div class="content-card">
+                <h3 style="color: #667eea; margin-bottom: 20px;">🦷 Clinical Procedures</h3>
+                <div class="item-list">
+                    <div class="item">
+                        <h4>Extractions (Simple)</h4>
+                        <div class="item-detail"><strong>Completed:</strong> 12/20</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 60%;"></div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <h4>Composite Restorations</h4>
+                        <div class="item-detail"><strong>Completed:</strong> 18/30</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 60%;"></div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <h4>Root Canal Treatment</h4>
+                        <div class="item-detail"><strong>Completed:</strong> 8/10</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 80%;"></div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <h4>Crown & Bridge Preparation</h4>
+                        <div class="item-detail"><strong>Completed:</strong> 7/15</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 47%;"></div>
+                        </div>
+                    </div>
+                </div>
+                <p id="noClinical" class="no-data" style="display: none;">No clinical data available.</p>
+            </div>
+        </div>
+
+        <!-- Rotations Tab -->
+        <div id="rotations" class="tab-content">
+            <div class="content-card">
+                <h3 style="color: #667eea; margin-bottom: 20px;">🔄 Department Rotations</h3>
+                <div class="item-list">
+                    <div class="item">
+                        <h4>Conservative Dentistry & Endodontics</h4>
+                        <div class="item-detail"><strong>Duration:</strong> Jan 2026 - Feb 2026</div>
+                        <div class="item-detail"><strong>Guide:</strong> Dr. Kavitha Rao</div>
+                        <span class="badge badge-success">Completed</span>
+                    </div>
+                    <div class="item">
+                        <h4>Prosthodontics & Crown & Bridge</h4>
+                        <div class="item-detail"><strong>Duration:</strong> Feb 2026 - Mar 2026</div>
+                        <div class="item-detail"><strong>Guide:</strong> Dr. Suresh Kumar</div>
+                        <span class="badge badge-primary">In Progress</span>
+                    </div>
+                    <div class="item">
+                        <h4>Periodontics</h4>
+                        <div class="item-detail"><strong>Duration:</strong> Apr 2026 - May 2026</div>
+                        <div class="item-detail"><strong>Guide:</strong> Dr. Anjali Singh</div>
+                        <span class="badge badge-warning">Upcoming</span>
+                    </div>
+                </div>
+                <p id="noRotations" class="no-data" style="display: none;">No rotation data available.</p>
+            </div>
+        </div>
+
+        <!-- Lab Bookings Tab -->
+        <div id="lab-bookings" class="tab-content">
+            <div class="content-card">
+                <h3 style="color: #667eea; margin-bottom: 20px;">🔬 Simulation Lab Bookings</h3>
+                <div class="item-list">
+                    <div class="item">
+                        <h4>Phantom Head 5 - Conservative Lab</h4>
+                        <div class="item-detail"><strong>Date:</strong> 20-Apr-2026</div>
+                        <div class="item-detail"><strong>Time:</strong> 10:00 AM - 12:00 PM</div>
+                        <span class="badge badge-success">Confirmed</span>
+                    </div>
+                    <div class="item">
+                        <h4>Phantom Head 8 - Prosthetics Lab</h4>
+                        <div class="item-detail"><strong>Date:</strong> 22-Apr-2026</div>
+                        <div class="item-detail"><strong>Time:</strong> 02:00 PM - 04:00 PM</div>
+                        <span class="badge badge-success">Confirmed</span>
+                    </div>
+                </div>
+                <button class="btn" style="margin-top: 15px; width: 100%;">📅 Book New Slot</button>
+                <p id="noBookings" class="no-data" style="display: none;">No lab bookings found.</p>
+            </div>
+        </div>
+
+        <!-- Certificates Tab -->
+        <div id="certificates" class="tab-content">
+            <div class="content-card">
+                <h3 style="color: #667eea; margin-bottom: 20px;">📜 Certificates & Documents</h3>
+                <div class="item-list">
+                    <div class="item">
+                        <h4>BDS 3rd Year - Academic Certificate</h4>
+                        <div class="item-detail"><strong>Issued:</strong> 15-Apr-2026</div>
+                        <div class="item-detail"><strong>Status:</strong> Ready for Download</div>
+                        <button class="btn" style="margin-top: 8px;">Download PDF</button>
+                    </div>
+                    <div class="item">
+                        <h4>Clinical Practice Certificate</h4>
+                        <div class="item-detail"><strong>Issued:</strong> 10-Apr-2026</div>
+                        <div class="item-detail"><strong>Status:</strong> Ready for Download</div>
+                        <button class="btn" style="margin-top: 8px;">Download PDF</button>
+                    </div>
+                </div>
+                <p id="noCertificates" class="no-data" style="display: none;">No certificates available yet.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:3000';
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadDashboard();
+        });
+
+        async function loadDashboard() {
+            try {
+                const response = await fetch(`${API_URL}/api/student/dashboard`, { credentials: 'include' });
+                if (!response.ok) throw new Error('Unauthorized');
+                
+                const data = await response.json();
+                
+                // Update student info
+                document.getElementById('studentName').textContent = data.studentInfo.name;
+                document.getElementById('studentId').textContent = `ID: ${data.studentInfo.studentId}`;
+
+                // Update academic stats
+                document.getElementById('attendance').textContent = data.academicStats.attendance + '%';
+                document.getElementById('marks').textContent = data.academicStats.internalMarks + '%';
+                document.getElementById('procedures').textContent = data.academicStats.clinicalQuota + '/' + data.academicStats.totalProcedures;
+                document.getElementById('hours').textContent = data.stats.totalClinicalHours;
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+                alert('Error loading dashboard. Please refresh.');
+            }
+        }
+
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        async function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                await fetch(`${API_URL}/api/patient/logout`, { credentials: 'include' });
+                window.location.href = '/admin/login.html';
+            }
+        }
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Student Academic Dashboard — RDCH</title>
