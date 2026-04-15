@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulation Lab Booker — RDCH</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Hind+Kannada:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="inner-page">
+
+  <nav class="glass-nav">
+    <a href="index.html" class="logo">🦷 RDCH</a>
+    <div class="nav-links">
+      <a href="students.html">🎓 Student Menu</a>
+    </div>
+  </nav>
+
+  <div class="inner-hero fade-up hero-slim" style="background:#475569;">
+    <h1 class="page-title">Simulation Lab Booker</h1>
+    <p class="page-subtitle">Reserve Phantom Heads and pre-clinical lab time slots.</p>
+  </div>
+
+  <div class="inner-content">
+    <div class="glass-panel" style="max-width:600px; margin:0 auto; background:var(--off-white);">
+        <h3 style="color:var(--brand-blue); font-size:var(--fs-xl); margin-bottom:1rem; text-align:center;">Book a Slot</h3>
+        
+        <div class="form-group">
+          <label>Student ID</label>
+          <input type="text" placeholder="e.g. 2023-BDS-001">
+        </div>
+        <div class="form-group">
+          <label>Department Target</label>
+          <select style="width:100%; padding:0.8rem; border-radius:var(--radius-sm); border:1px solid #ddd;">
+            <option>Conservative Dentistry & Endodontics</option>
+            <option>Prosthetics & Crown & Bridge</option>
+            <option>Pedodontics & Preventive Dentistry</option>
+            <option>Oral Medicine & Radiology (CBCT Observe)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Date & Time</label>
+          <input type="datetime-local" style="width:100%; padding:0.8rem; border-radius:var(--radius-sm); border:1px solid #ddd;">
+        </div>
+        <button class="btn btn-orange" style="width: 100%;">Confirm Booking</button>
+    </div>
+  </div>
+
+  <footer class="main-footer" style="padding: 2rem; background: #0A1628; color: white; text-align: center;">
+    <p>&copy; 2026 Rajarajeswari Dental College &amp; Hospital. All rights reserved.</p>
+  </footer>
+</body>
+</html>

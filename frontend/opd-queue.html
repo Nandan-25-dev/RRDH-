@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live OPD Queue — RDCH</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Hind+Kannada:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="inner-page">
+
+  <!-- GLASS NAV -->
+  <nav class="glass-nav">
+    <a href="index.html" class="logo">🦷 RDCH</a>
+    <div class="nav-links">
+      <a href="index.html">🏠 Home</a>
+      <a href="contact.html#appointment">📅 Appointment</a>
+    </div>
+  </nav>
+
+  <!-- INNER HERO -->
+  <div class="inner-hero fade-up hero-slim">
+    <h1 class="page-title">Live OPD Queue</h1>
+    <p class="page-subtitle">Check your department's currently serving token number to minimize waiting time.</p>
+  </div>
+
+  <div class="inner-content">
+    <div class="token-board">
+      <div class="token-card">
+        <h3>General Dentistry</h3>
+        <p>Serving Token</p>
+        <div class="token-number" id="token-gen">A-042</div>
+        <p style="color:var(--text-muted); font-size: 0.8rem;">Room 101 - Dr. Sharma</p>
+      </div>
+
+      <div class="token-card">
+        <h3>Orthodontics</h3>
+        <p>Serving Token</p>
+        <div class="token-number" id="token-orth">B-018</div>
+        <p style="color:var(--text-muted); font-size: 0.8rem;">Room 205 - Dr. Rajesh</p>
+      </div>
+
+      <div class="token-card">
+        <h3>Oral Surgery</h3>
+        <p>Serving Token</p>
+        <div class="token-number" id="token-surg">S-112</div>
+        <p style="color:var(--text-muted); font-size: 0.8rem;">OT Block - Dr. Mehta</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- GLASS FOOTER -->
+  <footer class="glass-footer" style="padding: 2rem; background: #0A1628; color: white; text-align: center;">
+    <p>&copy; 2026 Rajarajeswari Dental College &amp; Hospital.</p>
+  </footer>
+
+  <script>
+    // Demo script to increment tokens
+    setInterval(() => {
+        const p = document.getElementById('token-gen');
+        let num = parseInt(p.innerText.split('-')[1]);
+        if(Math.random() > 0.7) {
+            num++;
+            p.innerText = 'A-0' + num;
+        }
+    }, 5000);
+  </script>
+</body>
+</html>

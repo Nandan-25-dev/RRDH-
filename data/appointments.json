@@ -1,0 +1,22 @@
+[
+  {
+    "id": "71655db0-5f72-47c4-b3a5-07bfef497ff9",
+    "name": "Dr. Test Patient",
+    "phone": "+91 98765 43210",
+    "date": "60425-02-02",
+    "department": "ortho",
+    "message": "",
+    "status": "Cancelled",
+    "createdAt": "2026-04-10T14:11:25.529Z"
+  },
+  {
+    "id": "4a77273e-9ffe-40ea-80ef-1c128a284d3e",
+    "name": "Test Patient",
+    "phone": "+91 98765 43210",
+    "date": "2026-04-25",
+    "department": "ortho",
+    "message": "Test booking",
+    "status": "Confirmed",
+    "createdAt": "2026-04-10T14:08:49.193Z"
+  }
+]

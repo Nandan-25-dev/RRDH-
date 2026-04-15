@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Dashboard - RRDC&H</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 28px;
+        }
+
+        .logout-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.7);
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .tab-btn.active {
+            color: white;
+            border-bottom-color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 20px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .info-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #667eea;
+            font-size: 12px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            color: #333;
+            font-size: 14px;
+        }
+
+        .appointments-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .appointments-table th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .appointments-table td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .appointments-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-confirmed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-completed {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .action-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-right: 5px;
+            transition: all 0.3s;
+        }
+
+        .action-btn:hover {
+            background: #5568d3;
+            transform: translateY(-1px);
+        }
+
+        .loading {
+            text-align: center;
+            color: #667eea;
+            font-weight: 600;
+            padding: 40px;
+        }
+
+        .empty {
+            text-align: center;
+            color: #999;
+            padding: 40px;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            header h1 {
+                font-size: 20px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div>
+                <h1>👨‍⚕️ Doctor Dashboard</h1>
+                <p style="margin-top: 5px; opacity: 0.9;">Welcome, Dr. <span id="doctorName">Doctor</span></p>
+            </div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('profile')">👤 Profile</button>
+            <button class="tab-btn" onclick="switchTab('appointments')">📅 Appointments</button>
+            <button class="tab-btn" onclick="switchTab('statistics')">📊 Statistics</button>
+        </div>
+
+        <!-- Profile Tab -->
+        <div id="profile" class="tab-content active">
+            <div class="card">
+                <h2>My Professional Profile</h2>
+                <div id="profileLoading" class="loading">Loading profile...</div>
+                <div id="profileContent" style="display: none;">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-label">Full Name</div>
+                            <div class="info-value" id="profileName">-</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Email</div>
+                            <div class="info-value" id="profileEmail">-</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Phone</div>
+                            <div class="info-value" id="profilePhone">-</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Specialization</div>
+                            <div class="info-value" id="profileSpecialization">-</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">License Number</div>
+                            <div class="info-value" id="profileLicense">-</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Years of Experience</div>
+                            <div class="info-value" id="profileExperience">-</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Consultation Fee</div>
+                            <div class="info-value" id="profileFee">-</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Status</div>
+                            <div class="info-value" id="profileStatus">-</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 20px; padding: 15px; background: #f0f7ff; border-radius: 8px; border-left: 4px solid #667eea;">
+                        <strong>Bio:</strong>
+                        <p style="margin-top: 8px; color: #666;" id="profileBio">-</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Appointments Tab -->
+        <div id="appointments" class="tab-content">
+            <div class="card">
+                <h2>My Appointments</h2>
+                <div id="appointmentsLoading" class="loading">Loading appointments...</div>
+                <div id="appointmentsContent" style="display: none;">
+                    <table class="appointments-table">
+                        <thead>
+                            <tr>
+                                <th>Patient Name</th>
+                                <th>Date & Time</th>
+                                <th>Service</th>
+                                <th>Reason</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="appointmentsList"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics Tab -->
+        <div id="statistics" class="tab-content">
+            <div class="card">
+                <h2>My Statistics</h2>
+                <div id="statsLoading" class="loading">Loading statistics...</div>
+                <div id="statsContent" style="display: none;">
+                    <div class="info-grid">
+                        <div class="info-item" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none;">
+                            <div class="info-label" style="color: rgba(255,255,255,0.8);">Total Appointments</div>
+                            <div class="info-value" id="statsTotalAppointments" style="font-size: 28px; font-weight: bold;">0</div>
+                        </div>
+                        <div class="info-item" style="background: linear-gradient(135deg, #4caf50 0%, #45a049 100%); color: white; border: none;">
+                            <div class="info-label" style="color: rgba(255,255,255,0.8);">Completed</div>
+                            <div class="info-value" id="statsCompletedAppointments" style="font-size: 28px; font-weight: bold;">0</div>
+                        </div>
+                        <div class="info-item" style="background: linear-gradient(135deg, #ff9800 0%, #fb8c00 100%); color: white; border: none;">
+                            <div class="info-label" style="color: rgba(255,255,255,0.8);">Pending</div>
+                            <div class="info-value" id="statsPendingAppointments" style="font-size: 28px; font-weight: bold;">0</div>
+                        </div>
+                        <div class="info-item" style="background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%); color: white; border: none;">
+                            <div class="info-label" style="color: rgba(255,255,255,0.8);">Confirmed</div>
+                            <div class="info-value" id="statsConfirmedAppointments" style="font-size: 28px; font-weight: bold;">0</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load doctor data on page load
+        window.addEventListener('load', loadDashboard);
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+
+            if (tabName === 'appointments') loadAppointments();
+            if (tabName === 'statistics') loadStatistics();
+        }
+
+        async function loadDashboard() {
+            await loadProfile();
+        }
+
+        async function loadProfile() {
+            try {
+                const response = await fetch('/api/doctor/profile');
+                if (!response.ok) throw new Error('Failed to load profile');
+                
+                const data = await response.json();
+                document.getElementById('doctorName').textContent = data.firstName || 'Doctor';
+                document.getElementById('profileName').textContent = `Dr. ${data.firstName} ${data.lastName}`;
+                document.getElementById('profileEmail').textContent = data.email;
+                document.getElementById('profilePhone').textContent = data.phone || '-';
+                document.getElementById('profileSpecialization').textContent = data.specialization || '-';
+                document.getElementById('profileLicense').textContent = data.licenseNumber || '-';
+                document.getElementById('profileExperience').textContent = data.experience + ' years' || '-';
+                document.getElementById('profileFee').textContent = '₹' + data.consultationFee || '-';
+                document.getElementById('profileStatus').textContent = data.isActive ? '✅ Active' : '❌ Inactive';
+                document.getElementById('profileBio').textContent = data.bio || 'No bio added yet.';
+
+                document.getElementById('profileLoading').style.display = 'none';
+                document.getElementById('profileContent').style.display = 'block';
+            } catch (error) {
+                document.getElementById('profileLoading').innerHTML = '<div style="color: #e74c3c;">Error loading profile: ' + error.message + '</div>';
+            }
+        }
+
+        async function loadAppointments() {
+            try {
+                const response = await fetch('/api/doctor/appointments');
+                if (!response.ok) throw new Error('Failed to load appointments');
+                
+                const appointments = await response.json();
+                const tbody = document.getElementById('appointmentsList');
+                
+                if (appointments.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #999; padding: 40px;">No appointments scheduled yet</td></tr>';
+                } else {
+                    tbody.innerHTML = appointments.map(apt => `
+                        <tr>
+                            <td>${apt.patientName}</td>
+                            <td>${new Date(apt.date).toLocaleDateString()} at ${apt.time}</td>
+                            <td>${apt.service || 'Service'}</td>
+                            <td>${apt.reason || 'General Checkup'}</td>
+                            <td><span class="status-badge status-${apt.status.toLowerCase()}">${apt.status}</span></td>
+                            <td>
+                                <button class="action-btn" onclick="updateAppointmentStatus('${apt._id}', 'Confirmed')">✓ Confirm</button>
+                                <button class="action-btn" onclick="updateAppointmentStatus('${apt._id}', 'Completed')" style="background: #4caf50;">✓ Complete</button>
+                            </td>
+                        </tr>
+                    `).join('');
+                }
+                
+                document.getElementById('appointmentsLoading').style.display = 'none';
+                document.getElementById('appointmentsContent').style.display = 'block';
+            } catch (error) {
+                document.getElementById('appointmentsLoading').innerHTML = '<div style="color: #e74c3c;">Error loading appointments: ' + error.message + '</div>';
+            }
+        }
+
+        async function updateAppointmentStatus(appointmentId, newStatus) {
+            try {
+                const response = await fetch(`/api/doctor/appointments/${appointmentId}/status`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ status: newStatus })
+                });
+
+                if (response.ok) {
+                    alert('✅ Appointment status updated');
+                    loadAppointments();
+                } else {
+                    alert('❌ Failed to update appointment');
+                }
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+        }
+
+        async function loadStatistics() {
+            try {
+                const response = await fetch('/api/doctor/statistics');
+                if (!response.ok) throw new Error('Failed to load statistics');
+                
+                const stats = await response.json();
+                document.getElementById('statsTotalAppointments').textContent = stats.totalAppointments || 0;
+                document.getElementById('statsCompletedAppointments').textContent = stats.completedAppointments || 0;
+                document.getElementById('statsPendingAppointments').textContent = stats.pendingAppointments || 0;
+                document.getElementById('statsConfirmedAppointments').textContent = stats.confirmedAppointments || 0;
+                
+                document.getElementById('statsLoading').style.display = 'none';
+                document.getElementById('statsContent').style.display = 'block';
+            } catch (error) {
+                document.getElementById('statsLoading').innerHTML = '<div style="color: #e74c3c;">Error loading statistics: ' + error.message + '</div>';
+            }
+        }
+
+       async function logout() {
+    if (confirm('Are you sure you want to logout?')) {
+        try {
+            await fetch('/api/doctor/logout', {
+                method: 'POST' // or GET depending on backend
+            });
+
+            // ✅ Redirect to doctor login tab
+            window.location.href = '/admin/login?tab=doctor';
+
+        } catch (error) {
+            alert('Logout failed');
+        }
+    }
+}
+    </script>
+</body>
+</html>

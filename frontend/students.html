@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Student Portal — RajaRajeswari Dental College: Timetables, study resources, exam calendar, attendance and more.">
+  <title>Student Portal — RajaRajeswari Dental College &amp; Hospital</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Hind+Kannada:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <style>
+    .progress-bar-wrap { background: var(--border-light); border-radius: 50px; height: 10px; width: 100%; overflow: hidden; }
+    .progress-bar { height: 100%; border-radius: 50px; background: linear-gradient(90deg, #1D4ED8, #3B82F6); transition: width 1s ease; }
+    .attendance-card { background: var(--white); border: 1.5px solid var(--border-light); border-radius: var(--radius-lg); padding: 1.4rem; }
+    .att-row { display: flex; justify-content: space-between; align-items: center; padding: 0.65rem 0; border-bottom: 1px solid var(--border-light); }
+    .att-row:last-child { border-bottom: none; }
+    .att-subject { font-size: var(--fs-sm); font-weight: 600; color: var(--text-primary); }
+    .att-pct { font-size: var(--fs-sm); font-weight: 700; }
+    .att-pct.good  { color: #16A34A; }
+    .att-pct.warn  { color: #D97706; }
+    .att-pct.low   { color: var(--brand-red); }
+    .exam-table { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); }
+    .exam-table th { background: #EFF6FF; color: #1D4ED8; padding: 0.7rem 1rem; text-align: left; font-weight: 700; }
+    .exam-table td { padding: 0.65rem 1rem; border-bottom: 1px solid var(--border-light); color: var(--text-secondary); }
+    .exam-table tr:last-child td { border-bottom: none; }
+    .exam-status { display: inline-block; padding: 0.2rem 0.7rem; border-radius: 50px; font-size: 0.72rem; font-weight: 700; }
+    .exam-status.upcoming { background: #DBEAFE; color: #1D4ED8; }
+    .exam-status.done     { background: #DCFCE7; color: #16A34A; }
+    .exam-status.today    { background: #FEF3C7; color: #D97706; }
+  </style>
+</head>
+<body class="inner-page">
+
+  <!-- GLASS NAV -->
+  <nav class="glass-nav">
+    <a href="index.html" class="logo">🦷 RDCH</a>
+    <div class="nav-links">
+      <a href="index.html" id="nav-home">🏠 Home</a>
+      <a href="students.html" class="active" id="nav-students">🎓 Students</a>
+      <a href="faculty.html" id="nav-faculty">👩‍🏫 Faculty</a>
+      <a href="about.html" id="nav-about">🏥 About</a>
+      <a href="contact.html" id="nav-contact">📞 Contact</a>
+      <a href="contact.html#appointment" id="nav-appt">📅 Appointment</a>
+      <a href="#" id="lang-toggle" class="lang-text-btn" style="padding:0.4rem 0.9rem; font-size:0.8rem; border-radius:50px;">EN / ಕನ್ನಡ</a>
+    </div>
+  </nav>
+
+  <!-- INNER HERO -->
+  <div class="inner-hero fade-up" style="background: linear-gradient(135deg, #1E3A8A 0%, #1D4ED8 100%);">
+    <h1>🎓 Student Portal</h1>
+    <p>Your one-stop hub for timetables, study materials, exam schedules, attendance tracking and academic announcements.</p>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="inner-content">
+
+    <!-- WELCOME BANNER -->
+    <div class="glass-panel fade-up" style="background: linear-gradient(135deg, #EFF6FF, #DBEAFE); border-color: #BFDBFE; margin-bottom:2rem;">
+      <div style="display:flex; align-items:center; gap:1rem; flex-wrap:wrap;">
+        <span style="font-size:3rem;">👋</span>
+        <div>
+          <h2 style="font-size:var(--fs-xl); font-weight:800; color:#1D4ED8; margin-bottom:0.2rem;">Welcome, Student!</h2>
+          <p style="font-size:var(--fs-base); color:var(--text-secondary);">Academic Year 2025–26 &nbsp;|&nbsp; Rajarajeswari Dental College &amp; Hospital, Bengaluru</p>
+        </div>
+        <div style="margin-left:auto; display:flex; gap:0.75rem; flex-wrap:wrap;">
+          <a href="contact.html#appointment" class="btn btn-orange" style="border-radius:var(--radius-md);">📅 Book OPD Slot</a>
+          <a href="http://localhost:3000/admin" target="_blank" class="btn btn-orange" style="background:#1D4ED8; border-radius:var(--radius-md);">🔐 Login Portal</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUICK RESOURCE CARDS -->
+    <div class="section-header fade-up" style="text-align:left;">
+      <span class="section-badge" style="background:#EFF6FF; color:#1D4ED8; border-color:#BFDBFE;">📚 Resources</span>
+      <h2 class="section-title">Academic Resources</h2>
+    </div>
+    <div class="resource-grid">
+      <div class="resource-card fade-up" style="border-color:#BFDBFE;">
+        <span class="r-icon">📚</span>
+        <h4>Study Materials</h4>
+        <p>Subject-wise notes, reference books and past year question papers for BDS &amp; MDS.</p>
+      </div>
+      <div class="resource-card fade-up" style="border-color:#BFDBFE;">
+        <span class="r-icon">🏆</span>
+        <h4>Exam Results</h4>
+        <p>View your internal assessment marks, university results and grade-cards here.</p>
+      </div>
+      <div class="resource-card fade-up" style="border-color:#BFDBFE;">
+        <span class="r-icon">📋</span>
+        <h4>Clinical Logbook</h4>
+        <p>Track your clinical cases, patient count and procedure logs required for exam eligibility.</p>
+      </div>
+      <div class="resource-card fade-up" style="border-color:#BFDBFE;">
+        <span class="r-icon">💰</span>
+        <h4>Fee &amp; Scholarship</h4>
+        <p>Check fee receipts, pending dues, and scholarship eligibility details for this year.</p>
+      </div>
+      <div class="resource-card fade-up" style="border-color:#BFDBFE;">
+        <span class="r-icon">🏅</span>
+        <h4>Certificates</h4>
+        <p>Download bonafide, NOC, course completion and internship certificates instantly.</p>
+      </div>
+      <div class="resource-card fade-up" style="border-color:#BFDBFE;">
+        <span class="r-icon">🎤</span>
+        <h4>Events &amp; Competitions</h4>
+        <p>Register for dental quizzes, seminars, sports events, cultural fests and conferences.</p>
+      </div>
+    </div>
+
+    <!-- TIMETABLE -->
+    <div class="section-header fade-up" style="text-align:left; margin-top:3rem;">
+      <span class="section-badge" style="background:#EFF6FF; color:#1D4ED8; border-color:#BFDBFE;">📅 Timetable</span>
+      <h2 class="section-title">Weekly Class Schedule — BDS 3rd Year</h2>
+    </div>
+    <div class="timetable-wrap fade-up">
+      <table class="timetable">
+        <thead>
+          <tr>
+            <th>Day</th>
+            <th>9:00 – 10:00</th>
+            <th>10:00 – 11:00</th>
+            <th>11:00 – 1:00</th>
+            <th>2:00 – 4:00</th>
+            <th>4:00 – 5:00</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Monday</strong></td>
+            <td><span class="subject-tag">Oral Pathology</span></td>
+            <td><span class="subject-tag">Periodontology</span></td>
+            <td>Clinical — OPD</td>
+            <td>Clinical — OPD</td>
+            <td><span class="subject-tag">Community Dentistry</span></td>
+          </tr>
+          <tr>
+            <td><strong>Tuesday</strong></td>
+            <td><span class="subject-tag">Orthodontics</span></td>
+            <td>Journal Club</td>
+            <td>Clinical — OPD</td>
+            <td><span class="subject-tag">Prosthodontics</span></td>
+            <td>Self Study</td>
+          </tr>
+          <tr>
+            <td><strong>Wednesday</strong></td>
+            <td><span class="subject-tag">Conservative Dentistry</span></td>
+            <td><span class="subject-tag">Oral Surgery</span></td>
+            <td>Clinical — OPD</td>
+            <td>Clinical — OPD</td>
+            <td>Library Hour</td>
+          </tr>
+          <tr>
+            <td><strong>Thursday</strong></td>
+            <td><span class="subject-tag">Paedodontics</span></td>
+            <td><span class="subject-tag">Oral Pathology</span></td>
+            <td>Clinical — OPD</td>
+            <td>Seminar / Case Presentation</td>
+            <td>Sports / Activity</td>
+          </tr>
+          <tr>
+            <td><strong>Friday</strong></td>
+            <td><span class="subject-tag">Periodontology</span></td>
+            <td><span class="subject-tag">Orthodontics</span></td>
+            <td>Clinical — OPD</td>
+            <td>Clinical — OPD</td>
+            <td><span class="subject-tag">Community Dentistry</span></td>
+          </tr>
+          <tr>
+            <td><strong>Saturday</strong></td>
+            <td colspan="2">Free Dental Camp — OPD Block (9 AM – 1 PM)</td>
+            <td colspan="3" style="color:var(--text-muted); font-style:italic;">Afternoon Free</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- TWO COLUMN — Attendance + Exam Calendar -->
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:2rem; margin-top:3rem;" class="fade-up">
+
+      <!-- ATTENDANCE -->
+      <div>
+        <div class="section-header" style="text-align:left; margin-bottom:1rem;">
+          <span class="section-badge" style="background:#EFF6FF; color:#1D4ED8; border-color:#BFDBFE;">📊 Attendance</span>
+          <h2 class="section-title" style="font-size:var(--fs-xl);">Subject-wise Attendance</h2>
+        </div>
+        <div class="attendance-card">
+          <div class="att-row">
+            <div>
+              <div class="att-subject">Oral Pathology</div>
+              <div class="progress-bar-wrap" style="margin-top:0.4rem;"><div class="progress-bar" style="width:87%;background:linear-gradient(90deg,#16A34A,#4ADE80);"></div></div>
+            </div>
+            <span class="att-pct good">87%</span>
+          </div>
+          <div class="att-row">
+            <div>
+              <div class="att-subject">Orthodontics</div>
+              <div class="progress-bar-wrap" style="margin-top:0.4rem;"><div class="progress-bar" style="width:76%;"></div></div>
+            </div>
+            <span class="att-pct good">76%</span>
+          </div>
+          <div class="att-row">
+            <div>
+              <div class="att-subject">Periodontology</div>
+              <div class="progress-bar-wrap" style="margin-top:0.4rem;"><div class="progress-bar" style="width:91%;background:linear-gradient(90deg,#16A34A,#4ADE80);"></div></div>
+            </div>
+            <span class="att-pct good">91%</span>
+          </div>
+          <div class="att-row">
+            <div>
+              <div class="att-subject">Community Dentistry</div>
+              <div class="progress-bar-wrap" style="margin-top:0.4rem;"><div class="progress-bar" style="width:64%;background:linear-gradient(90deg,#D97706,#F59E0B);"></div></div>
+            </div>
+            <span class="att-pct warn">64% ⚠️</span>
+          </div>
+          <div class="att-row">
+            <div>
+              <div class="att-subject">Oral Surgery</div>
+              <div class="progress-bar-wrap" style="margin-top:0.4rem;"><div class="progress-bar" style="width:55%;background:linear-gradient(90deg,#C0392B,#E74C3C);"></div></div>
+            </div>
+            <span class="att-pct low">55% 🚨</span>
+          </div>
+          <div class="att-row">
+            <div>
+              <div class="att-subject">Prosthodontics</div>
+              <div class="progress-bar-wrap" style="margin-top:0.4rem;"><div class="progress-bar" style="width:82%;background:linear-gradient(90deg,#16A34A,#4ADE80);"></div></div>
+            </div>
+            <span class="att-pct good">82%</span>
+          </div>
+          <p style="margin-top:1rem; font-size:var(--fs-xs); color:var(--text-muted);">⚠️ Minimum 75% attendance required for exam eligibility.</p>
+        </div>
+      </div>
+
+      <!-- EXAM CALENDAR -->
+      <div>
+        <div class="section-header" style="text-align:left; margin-bottom:1rem;">
+          <span class="section-badge" style="background:#EFF6FF; color:#1D4ED8; border-color:#BFDBFE;">📝 Exams</span>
+          <h2 class="section-title" style="font-size:var(--fs-xl);">Exam Calendar 2026</h2>
+        </div>
+        <div class="timetable-wrap" style="margin-top:0;">
+          <table class="exam-table">
+            <thead>
+              <tr><th>Subject</th><th>Date</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Oral Pathology — Theory</td>
+                <td>Apr 18, 2026</td>
+                <td><span class="exam-status today">🔔 Soon</span></td>
+              </tr>
+              <tr>
+                <td>Orthodontics — Practical</td>
+                <td>Apr 22, 2026</td>
+                <td><span class="exam-status upcoming">📅 Upcoming</span></td>
+              </tr>
+              <tr>
+                <td>Periodontology — Theory</td>
+                <td>Apr 25, 2026</td>
+                <td><span class="exam-status upcoming">📅 Upcoming</span></td>
+              </tr>
+              <tr>
+                <td>Community Dentistry</td>
+                <td>May 2, 2026</td>
+                <td><span class="exam-status upcoming">📅 Upcoming</span></td>
+              </tr>
+              <tr>
+                <td>Oral Surgery — Practical</td>
+                <td>May 7, 2026</td>
+                <td><span class="exam-status upcoming">📅 Upcoming</span></td>
+              </tr>
+              <tr>
+                <td>Prosthodontics — Theory</td>
+                <td>Mar 12, 2026</td>
+                <td><span class="exam-status done">✅ Done</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ANNOUNCEMENTS TIMELINE -->
+    <div class="section-header fade-up" style="text-align:left; margin-top:3rem;">
+      <span class="section-badge" style="background:#EFF6FF; color:#1D4ED8; border-color:#BFDBFE;">📢 Announcements</span>
+      <h2 class="section-title">Latest Academic Notices</h2>
+    </div>
+    <ul class="timeline fade-up">
+      <li class="timeline-item">
+        <div class="timeline-dot red">🚨</div>
+        <div class="timeline-body">
+          <div class="timeline-date">Apr 12, 2026</div>
+          <div class="timeline-title">Exam Hall Tickets Available</div>
+          <div class="timeline-desc">Hall tickets for the April 2026 university exams are now available. Collect from the exam cell — bring fees clearance receipt.</div>
+        </div>
+      </li>
+      <li class="timeline-item">
+        <div class="timeline-dot yellow">📅</div>
+        <div class="timeline-body">
+          <div class="timeline-date">Apr 10, 2026</div>
+          <div class="timeline-title">Free Dental Camp — Saturday Volunteers</div>
+          <div class="timeline-desc">BDS 2nd &amp; 3rd year students are invited to volunteer for the Saturday free dental camp. Register at the principal's office by April 14.</div>
+        </div>
+      </li>
+      <li class="timeline-item">
+        <div class="timeline-dot green">🏆</div>
+        <div class="timeline-body">
+          <div class="timeline-date">Apr 7, 2026</div>
+          <div class="timeline-title">RGUHS Dental Quiz — Registration Open</div>
+          <div class="timeline-desc">Inter-college dental quiz conducted by RGUHS. Interested students can register through the Student Affairs office. Last date: April 15.</div>
+        </div>
+      </li>
+      <li class="timeline-item">
+        <div class="timeline-dot blue">📚</div>
+        <div class="timeline-body">
+          <div class="timeline-date">Apr 3, 2026</div>
+          <div class="timeline-title">New Study Materials Uploaded</div>
+          <div class="timeline-desc">Periodontology and Oral Pathology notes for April exam preparation have been uploaded to the library portal. Check with librarian.</div>
+        </div>
+      </li>
+    </ul>
+
+  </div>
+
+  <!-- GLASS FOOTER -->
+  <footer class="glass-footer">
+    <p>&copy; 2026 Rajarajeswari Dental College &amp; Hospital. Student Portal.</p>
+  </footer>
+
+  <a href="tel:08028484210" class="float-emergency" title="Emergency">🚨 Emergency</a>
+
+  <script src="lang.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

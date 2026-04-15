@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital Prescription Viewer — RDCH</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Hind+Kannada:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="inner-page">
+
+  <nav class="glass-nav">
+    <a href="index.html" class="logo">🦷 RDCH</a>
+    <div class="nav-links">
+      <a href="index.html">🏠 Home</a>
+    </div>
+  </nav>
+
+  <div class="inner-hero fade-up hero-slim">
+    <h1 class="page-title">Digital Records Viewer</h1>
+    <p class="page-subtitle">Instantly access your digital prescriptions and post-op care instructions.</p>
+  </div>
+
+  <div class="inner-content" style="max-width: 600px; margin: 0 auto;">
+    <div class="glass-panel" id="login-panel">
+      <h3 style="color:var(--brand-red); font-size:var(--fs-xl); margin-bottom:1rem; text-align:center;">Find Your Record</h3>
+      <p style="color:var(--text-secondary); margin-bottom:1.5rem; text-align:center;">Enter your Patient ID or Appointment Reference Number.</p>
+      
+      <input type="text" id="record-id" placeholder="e.g. RDCH-90210" style="width:100%; padding: 0.8rem; border-radius: var(--radius-sm); border:1px solid #ddd; margin-bottom: 1rem; text-align:center;">
+      <button class="btn btn-orange" style="width: 100%;" onclick="showRecord()">View Prescription</button>
+    </div>
+
+    <!-- Hidden Prescription Result -->
+    <div class="glass-panel" id="prescription-panel" style="display:none; background:white; border:2px solid var(--brand-blue);">
+        <div style="border-bottom: 2px solid var(--brand-red); padding-bottom: 1rem; margin-bottom: 1rem; text-align:center;">
+            <h2 style="color:var(--brand-blue); margin:0;">Rajarajeswari Dental College & Hospital</h2>
+            <p style="font-size:0.8rem; color:var(--text-secondary);">Mysore Road, Bengaluru | DCI, NAAC, NABH Accredited</p>
+        </div>
+        
+        <p><strong>Patient:</strong> Simulated Patient <span style="float:right;"><strong>Date:</strong> 15-Apr-2026</span></p>
+        <p><strong>Doctor:</strong> Dr. Kavitha Rao (Periodontology)</p>
+        <hr style="border:0; border-top:1px dashed #ddd; margin:1rem 0;">
+        <h3 style="color:var(--brand-red);">Rx</h3>
+        <ul style="list-style:square; padding-left:1.5rem; line-height:1.8;">
+            <li><strong>Cap Amoxicillin 500mg</strong> - 1-1-1 (After Food) x 5 Days</li>
+            <li><strong>Tab Ibuprofen 400mg</strong> - 1-0-1 (After Food) x 3 Days</li>
+            <li><strong>Chlorhexidine Mouthwash 0.2%</strong> - Rinse twice daily</li>
+        </ul>
+        <div style="background:#FFFBEB; padding:1rem; border-left:4px solid var(--brand-yellow); margin-top:2rem;">
+            <strong>Post-Op Care:</strong> Do not spit or use a straw for 24 hours. Eat soft, cold diet.
+        </div>
+        <button class="btn btn-form" style="width:100%; margin-top:2rem;">Download as PDF</button>
+    </div>
+  </div>
+
+  <footer class="main-footer" style="padding: 2rem; background: #0A1628; color: white; text-align: center;">
+    <p>&copy; 2026 Rajarajeswari Dental College &amp; Hospital. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function showRecord() {
+        const input = document.getElementById('record-id').value;
+        if(input.trim() !== '') {
+            document.getElementById('login-panel').style.display = 'none';
+            document.getElementById('prescription-panel').style.display = 'block';
+        } else {
+            alert('Please enter a valid Appointment ID');
+        }
+    }
+  </script>
+</body>
+</html>

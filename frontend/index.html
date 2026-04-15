@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Rajarajeswari Dental College and Hospital Bengaluru — Excellence in Dental Education & Care. Book appointments online.">
+  <title>RajaRajeswari Dental College And Hospital | Bengaluru</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Hind+Kannada:wght@400;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+<!-- 
+  ====== SERVER INFO BAR ======
+  <div class="server-info-bar">
+    <span class="server-tag">
+      <span class="live-dot"></span>
+      SERVER LIVE
+    </span>
+    <span>patient,doctor,admin login
+      <a href="http://localhost:3000" target="_blank">login</a>
+    </span>
+    <span>|</span>
+   
+  
+  </div> -->
+
+  <!-- ====== NOTICE BANNER ====== -->
+  <div class="notice-banner">
+    <span class="notice-tag">📢 Notice</span>
+    <div class="ticker-wrap">
+      <span class="ticker-content">Free Dental Check-up Camp · Every Saturday · 9 AM – 1 PM · OPD Block &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; Admission Enquiry 2026-27 Now Open · BDS &amp; MDS Programs &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; Certificate Course in Implantology 2026-27 · Apply Now</span>
+    </div>
+  </div>
+
+  <!-- ====== HEADER / NAVBAR ====== -->
+  <header class="main-header">
+    <a href="index.html" class="logo-area">
+      <img
+        src="https://upload.wikimedia.org/wikipedia/en/thumb/e/e0/Rajrajeshwari_Dental_College_and_Hospital_Logo.png/150px-Rajrajeshwari_Dental_College_and_Hospital_Logo.png"
+        alt="RRDC&H Logo" class="logo-img"
+        onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2248%22 height=%2248%22><circle cx=%2224%22 cy=%2224%22 r=%2224%22 fill=%22%23C0392B%22/><text x=%2250%25%22 y=%2255%25%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22 font-size=%2214%22 fill=%22white%22>RD</text></svg>'">
+      <div class="logo-text">
+        <span class="logo-title" data-i18n="logoTitle">RajaRajeswari Dental College</span>
+        <span class="logo-subtitle" data-i18n="logoSub">And Hospital, Bengaluru</span>
+      </div>
+    </a>
+
+    <nav class="nav-links">
+      <a href="index.html" class="active" data-i18n="navHome" id="nav-home">🏠 Home</a>
+      <a href="#departments" data-i18n="navDepartments" id="nav-dept">🦷 Departments</a>
+      <a href="about.html" data-i18n="navAbout" id="nav-about">🏥 About</a>
+      <a href="directions.html" id="nav-dir">📍 Directions</a>
+      <a href="contact.html" data-i18n="navContact" id="nav-contact">📞 Contact</a>
+      <button id="lang-toggle" class="lang-text-btn" aria-label="Toggle language">EN / ಕನ್ನಡ</button>
+    </nav>
+
+    <div class="nav-action">
+  <a href="http://localhost:3000/admin/login.html" 
+     class="btn btn-orange" 
+     data-i18n="btnBookNav" 
+     id="btn-book-nav">
+    📅 Book Appointment
+  </a>
+</div>
+  </header>
+
+  <!-- ====== HERO SECTION ====== -->
+  <section class="hero-building fade-in" id="hero">
+    <div class="hero-content fade-up">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        <span data-i18n="heroSubHeader">Excellence in Dental Education &amp; Care</span>
+      </div>
+      <h1 class="hero-title">
+        <span data-i18n="heroLine1">RajaRajeswari</span>
+        <span class="highlight" data-i18n="heroLine2">Dental College</span>
+        <span data-i18n="heroLine3">&amp; Hospital</span>
+      </h1>
+      <p class="hero-desc" data-i18n="heroPara">
+        Your trusted partner for comprehensive dental care and world-class dental education in Bengaluru, Karnataka.
+      </p>
+      <div class="hero-buttons">
+        <a href="contact.html#appointment" class="btn btn-orange-lg" id="hero-book-btn">
+          <span>📅</span> <span data-i18n="btnBookMain">Book Appointment</span>
+        </a>
+        <a href="about.html" class="btn btn-outline-white" id="hero-explore-btn">
+          <span>🏛️</span> <span data-i18n="btnExplore">Explore Campus</span>
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat" id="stat-chairs">
+          <span class="hero-stat-number">100+</span>
+          <span class="hero-stat-label">Dental Chairs</span>
+        </div>
+        <div class="hero-stat" id="stat-years">
+          <span class="hero-stat-number">34+</span>
+          <span class="hero-stat-label">Years of Excellence</span>
+        </div>
+        <div class="hero-stat" id="stat-emergency">
+          <span class="hero-stat-number">24/7</span>
+          <span class="hero-stat-label">Emergency Care</span>
+        </div>
+        <div class="hero-stat" id="stat-patients">
+          <span class="hero-stat-number">50K+</span>
+          <span class="hero-stat-label">Patients Served</span>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-hint" id="scroll-hint-btn">
+      <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+      <span>Scroll down</span>
+    </div>
+  </section>
+
+  <!-- ====== LEADERSHIP SECTION ====== -->
+  <section class="leadership-section fade-up" id="leadership">
+    <div class="section-header">
+      <span class="section-badge" style="background:#EBF5FF; color:#1A4A8A;">🏛️ Our Leadership</span>
+      <h2 class="section-title">Pillars of Excellence</h2>
+      <p class="section-subtitle">Guided by visionary leaders committed to transforming dental education and patient care in India.</p>
+    </div>
+    <div class="leadership-grid">
+
+      <!-- CHAIRMAN CARD -->
+      <div class="leader-card chairman-card fade-up">
+        <div class="leader-img-wrap">
+          <div class="leader-badge-role">Founder Chancellor</div>
+          <img src="chairman.jpg" alt="Dr. A. C. Shanmugam – Founder Chancellor RRDCH"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+          <div class="leader-avatar-fallback" style="display:none;">👨‍💼</div>
+          <div class="leader-img-overlay"></div>
+        </div>
+        <div class="leader-info">
+          <div class="leader-quote-mark">"</div>
+          <p class="leader-quote">
+            It is my pleasure to congratulate you on your enrolling yourself as a student in our group of institutions, which are well known for their discipline, quality education and personality development. Our dental clinics are equipped with world-class facilities to ensure you receive the finest clinical training while providing excellent care to our patients.
+          </p>
+          <div class="leader-name-block">
+            <h3 class="leader-name">Dr. A. C. Shanmugam</h3>
+            <p class="leader-title">Founder Chancellor</p>
+            <p class="leader-org">RajaRajeswari Group of Institutions, Bengaluru</p>
+            <div class="leader-tags">
+              <span class="leader-tag">🎓 Visionary Educationist</span>
+              <span class="leader-tag">🏥 Healthcare Pioneer</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRINCIPAL CARD -->
+      <div class="leader-card principal-card fade-up">
+        <div class="leader-img-wrap">
+          <div class="leader-badge-role" style="background: linear-gradient(135deg, #C0392B, #E74C3C);">Principal</div>
+          <img src="principal.png" alt="Principal – Rajarajeswari Dental College and Hospital"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+          <div class="leader-avatar-fallback" style="display:none;">👩‍⚕️</div>
+          <div class="leader-img-overlay"></div>
+        </div>
+        <div class="leader-info">
+          <div class="leader-quote-mark" style="color: var(--brand-red);">"</div>
+          <p class="leader-quote">
+            Our college strives to blend academic rigour with clinical excellence. We aim to produce dentists who are not just technically competent, but compassionate caregivers. The growth of our students and the well-being of our patients remain our highest priority.
+          </p>
+          <div class="leader-name-block">
+            <h3 class="leader-name">Dr. P. Uma Devi</h3>
+            <p class="leader-title">Principal &amp; Dean</p>
+            <p class="leader-org">Rajarajeswari Dental College &amp; Hospital, Bengaluru</p>
+            <div class="leader-tags">
+              <span class="leader-tag" style="background:#FEF0F0; color:#C0392B;">🦷 MDS – Prosthodontics</span>
+              <span class="leader-tag" style="background:#FEF0F0; color:#C0392B;">📋 30+ Years Experience</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ====== HOSPITAL BUILDING IMAGE ====== -->
+  <section class="hospital-image-section">
+    <div class="section-header fade-up">
+      <span class="section-badge">🏥 Our Campus</span>
+      <h2 class="section-title">Rajarajeswari Dental College &amp; Hospital</h2>
+      <p class="section-subtitle">Located on Mysore Road, Bengaluru — easily accessible by Metro, Bus or Cab.</p>
+    </div>
+    <div class="hospital-image-wrap fade-up" style="margin-top:1.5rem;">
+      <img src="hospital-building.jpg" alt="Rajarajeswari Dental College and Hospital building Bengaluru"
+        loading="lazy">
+      <div class="hospital-caption">
+        📍 Mysore Road, Kengeri Satellite Town, Bengaluru – 560060 &nbsp;|&nbsp; 📞 080 – 2848 4210
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== PHOTO GALLERY ====== -->
+  <section class="gallery-section" id="gallery">
+    <div class="section-header fade-up">
+      <span class="section-badge">📸 Campus Life</span>
+      <h2 class="section-title">Life at RRDC&amp;H</h2>
+      <p class="section-subtitle">World-class facilities, vibrant campus life, and a legacy of excellence in dental education.</p>
+    </div>
+    <div class="gallery-grid fade-up">
+      <div class="gallery-item gallery-item-large">
+        <img src="campus.png" alt="Rajarajeswari Dental College Campus Bengaluru" loading="lazy">
+        <div class="gallery-caption">🏛️ Our Beautiful Campus – Mysore Road, Bengaluru</div>
+      </div>
+      <div class="gallery-item">
+        <img src="clinic-interior.png" alt="Modern Dental Clinic Interior" loading="lazy">
+        <div class="gallery-caption">🦷 State-of-the-Art Dental Clinics</div>
+      </div>
+      <div class="gallery-item">
+        <img src="students-lab.png" alt="Students in Dental Simulation Lab" loading="lazy">
+        <div class="gallery-caption">🔬 Simulation Lab Training</div>
+      </div>
+      <div class="gallery-item gallery-item-wide">
+        <img src="graduation.png" alt="Dental College Graduation Ceremony" loading="lazy">
+        <div class="gallery-caption">🎓 Annual Convocation – Celebrating Excellence</div>
+      </div>
+      <div class="gallery-item">
+        <img src="hospital-building.jpg" alt="RRDC&H Main Building" loading="lazy">
+        <div class="gallery-caption">🏥 Main Hospital Building – OPD &amp; Speciality Wards</div>
+      </div>
+    </div>
+    <!-- Accreditation Badge Strip -->
+    <div class="accreditation-strip fade-up">
+      <div class="accred-title">Recognized &amp; Accredited By</div>
+      <div class="accred-badges">
+        <div class="accred-badge"><span class="accred-icon">🎖️</span><span>DCI</span></div>
+        <div class="accred-badge"><span class="accred-icon">🏆</span><span>NAAC</span></div>
+        <div class="accred-badge"><span class="accred-icon">⭐</span><span>NABH</span></div>
+        <div class="accred-badge"><span class="accred-icon">🌐</span><span>ISO Certified</span></div>
+        <div class="accred-badge"><span class="accred-icon">🇬🇧</span><span>RCPSG · UK</span></div>
+        <div class="accred-badge"><span class="accred-icon">📊</span><span>NIRF Ranked</span></div>
+        <div class="accred-badge"><span class="accred-icon">🌍</span><span>IAO</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== DEPARTMENTS / SERVICES ====== -->
+  <section class="features-strip" id="departments">
+    <div class="section-header fade-up">
+      <span class="section-badge">🦷 Departments</span>
+      <h2 class="section-title">Our Dental Specialities</h2>
+      <p class="section-subtitle">Expert care in every field of dentistry — modern technology, compassionate doctors.
+      </p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card fade-up">
+        <span class="feature-icon">🦷</span>
+        <h3 class="feature-title">General Dentistry</h3>
+        <p class="feature-desc">Routine check-ups, fillings, extractions and preventive care for all ages.</p>
+      </div>
+      <div class="feature-card fade-up">
+        <span class="feature-icon">😬</span>
+        <h3 class="feature-title">Orthodontics</h3>
+        <p class="feature-desc">Braces and clear aligners to straighten teeth and correct bites.</p>
+      </div>
+      <div class="feature-card fade-up">
+        <span class="feature-icon">🔬</span>
+        <h3 class="feature-title">CBCT Imaging</h3>
+        <p class="feature-desc">Advanced 3D X-ray centre for precise diagnosis and treatment planning.</p>
+      </div>
+      <div class="feature-card fade-up">
+        <span class="feature-icon">🏥</span>
+        <h3 class="feature-title">Oral Surgery</h3>
+        <p class="feature-desc">Fully equipped maxillofacial unit for complex tooth and jaw surgeries.</p>
+      </div>
+      <div class="feature-card fade-up">
+        <span class="feature-icon">👶</span>
+        <h3 class="feature-title">Paedodontics</h3>
+        <p class="feature-desc">Gentle, fun dental care designed specifically for children of all ages.</p>
+      </div>
+      <div class="feature-card fade-up">
+        <span class="feature-icon">⚡</span>
+        <h3 class="feature-title">Emergency Care</h3>
+        <p class="feature-desc">24/7 dental emergency services — call us any time at 080–2848 4210.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== DOCTORS SECTION ====== -->
+  <section class="doctors-section" id="doctors">
+    <div class="section-header fade-up">
+      <span class="section-badge">👨‍⚕️ Our Team</span>
+      <h2 class="section-title">Meet Our Specialists</h2>
+      <p class="section-subtitle">Experienced, caring dental professionals dedicated to your oral health.</p>
+    </div>
+    <div class="doctors-grid">
+      <div class="doctor-card fade-up">
+        <div class="doctor-avatar">👨‍⚕️</div>
+        <div class="doctor-name">Dr. Rajesh Kumar</div>
+        <div class="doctor-dept">Orthodontics</div>
+        <div class="doctor-exp">20+ Years Experience</div>
+      </div>
+      <div class="doctor-card fade-up">
+        <div class="doctor-avatar">👩‍⚕️</div>
+        <div class="doctor-name">Dr. Priya Sharma</div>
+        <div class="doctor-dept">Paedodontics</div>
+        <div class="doctor-exp">15+ Years Experience</div>
+      </div>
+      <div class="doctor-card fade-up">
+        <div class="doctor-avatar">👨‍⚕️</div>
+        <div class="doctor-name">Dr. Anil Mehta</div>
+        <div class="doctor-dept">Oral Surgery</div>
+        <div class="doctor-exp">18+ Years Experience</div>
+      </div>
+      <div class="doctor-card fade-up">
+        <div class="doctor-avatar">👩‍⚕️</div>
+        <div class="doctor-name">Dr. Kavitha Rao</div>
+        <div class="doctor-dept">Periodontology</div>
+        <div class="doctor-exp">12+ Years Experience</div>
+      </div>
+      <div class="doctor-card fade-up">
+        <div class="doctor-avatar">👨‍⚕️</div>
+        <div class="doctor-name">Dr. Suresh Nair</div>
+        <div class="doctor-dept">Prosthodontics</div>
+        <div class="doctor-exp">17+ Years Experience</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== PORTALS FOR YOU ====== -->
+  <section class="portals-section" id="portals">
+    <div class="section-header fade-up">
+      <span class="section-badge">🎓 Portals</span>
+      <h2 class="section-title">What Brings You Here?</h2>
+      <p class="section-subtitle">Select your role to access resources designed specifically for you.</p>
+    </div>
+    <div class="portals-grid">
+
+      <!-- STUDENT PORTAL -->
+      <a href="students.html" class="portal-card student-card fade-up" id="portal-student">
+        <div class="portal-icon-wrap">🎓</div>
+        <h3 class="portal-title">I'm a Student</h3>
+        <p class="portal-desc">Access timetables, study materials, exam schedules, attendance records and academic resources.</p>
+        <ul class="portal-features">
+          <li>📅 Class Timetable</li>
+          <li>📚 Study Resources & Notes</li>
+          <li>📝 Exam & Academic Calendar</li>
+          <li>📊 Attendance Tracker</li>
+          <li>🏆 Results & Certificates</li>
+        </ul>
+        <span class="portal-cta">Enter Student Portal →</span>
+      </a>
+
+      <!-- FACULTY PORTAL -->
+      <a href="faculty.html" class="portal-card faculty-card fade-up" id="portal-faculty">
+        <div class="portal-icon-wrap">👩‍🏫</div>
+        <h3 class="portal-title">I'm a Faculty / Teacher</h3>
+        <p class="portal-desc">View faculty directory, manage schedules, upload study materials and access research tools.</p>
+        <ul class="portal-features">
+          <li>👥 Faculty Directory</li>
+          <li>📖 Curriculum & Lesson Plans</li>
+          <li>🔬 Research & Publications</li>
+          <li>📋 Student Attendance Sheet</li>
+          <li>📢 Announcements Board</li>
+        </ul>
+        <span class="portal-cta">Enter Faculty Portal →</span>
+      </a>
+
+      <!-- PATIENT PORTAL -->
+      <a href="contact.html#appointment" class="portal-card patient-card fade-up" id="portal-patient">
+        <div class="portal-icon-wrap">🏥</div>
+        <h3 class="portal-title">I'm a Patient</h3>
+        <p class="portal-desc">Book appointments, learn about treatments, get dental health tips and find our location easily.</p>
+        <ul class="portal-features">
+          <li>📅 Book Appointment Online</li>
+          <li>📍 Get Directions to Hospital</li>
+          <li>💊 Treatment Information</li>
+          <li>🦷 Dental Health Tips</li>
+          <li>🚨 24/7 Emergency Contact</li>
+        </ul>
+        <span class="portal-cta">Book Appointment →</span>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ====== PATIENT DENTAL TIPS (FAQ Accordion) ====== -->
+  <section class="tips-section" id="dental-tips">
+    <div class="section-header fade-up">
+      <span class="section-badge">🦷 Dental Health</span>
+      <h2 class="section-title">Common Dental Questions</h2>
+      <p class="section-subtitle">Quick answers to help patients understand their dental health better.</p>
+    </div>
+    <div class="faq-grid fade-up">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          How often should I visit the dentist? <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">Visit your dentist at least <strong>twice a year</strong> (every 6 months) for routine check-ups and cleaning. Early detection prevents major issues.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          What should I do in a dental emergency? <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">Call us immediately at <strong>080 – 2848 4210</strong>. We provide 24/7 emergency dental services. For knocked-out teeth, keep it moist and come in right away.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          At what age should children first visit a dentist? <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">Children should have their first dental visit by age <strong>1–2 years</strong>, or when the first tooth appears. Early visits build healthy habits and prevent cavities.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          How long does a braces treatment take? <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">Braces treatment typically takes <strong>12 to 24 months</strong> depending on the severity of misalignment. Our orthodontists will give a personalised timeline at consultation.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          Is treatment here free for OPD patients? <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">Treatment at RDCH OPD is available at <strong>very subsidised rates</strong> since the work is done by BDS/MDS students under expert faculty supervision. Call us for fee details.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          How do I book an appointment? <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">You can book online using our <strong><a href="contact.html#appointment" style="color:var(--brand-red);">Appointment Form</a></strong>, or call us at 080 – 2848 4210 during OPD hours (Mon–Sat, 9 AM–5 PM).</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== QUICK ACCESS ====== -->
+  <section class="quick-access">
+    <div class="section-header fade-up">
+      <span class="section-badge">⚡ Quick Access</span>
+      <h2 class="section-title">What Would You Like to Do?</h2>
+      <p class="section-subtitle">Tap any card to quickly find what you need.</p>
+    </div>
+    <div class="quick-grid">
+      <a href="contact.html#appointment" class="quick-card fade-up" id="qa-book">
+        <span class="q-icon">📅</span>
+        <span class="q-title">Book Appointment</span>
+        <span class="q-desc">Schedule your visit online in seconds</span>
+      </a>
+      <a href="directions.html" class="quick-card fade-up" id="qa-dir">
+        <span class="q-icon">📍</span>
+        <span class="q-title">Get Directions</span>
+        <span class="q-desc">Open Google Maps and navigate to us</span>
+      </a>
+      <a href="contact.html" class="quick-card fade-up" id="qa-contact">
+        <span class="q-icon">📞</span>
+        <span class="q-title">Contact Us</span>
+        <span class="q-desc">Call or drop us a message anytime</span>
+      </a>
+      <a href="about.html" class="quick-card fade-up" id="qa-about">
+        <span class="q-icon">🏥</span>
+        <span class="q-title">About Us</span>
+        <span class="q-desc">Learn about our college and facilities</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ====== TESTIMONIALS ====== -->
+  <section class="testimonials-section" id="reviews">
+    <div class="section-header fade-up">
+      <span class="section-badge">⭐ Patient Reviews</span>
+      <h2 class="section-title">What Our Patients Say</h2>
+      <p class="section-subtitle">Trusted by thousands of patients and families across Bengaluru.</p>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card fade-up">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text">"Excellent dental care! The doctors here are very skilled and patient-friendly. My braces
+          treatment was completed perfectly. Highly recommend RRDC&H."</p>
+        <div class="t-author">
+          <div class="t-avatar">😊</div>
+          <div>
+            <div class="t-name">Ramesh Gowda</div>
+            <div class="t-label">Orthodontics Patient</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card fade-up">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text">"My child was scared of dentist visits, but the team here was so gentle and kind. The
+          paedodontics department is wonderful. Truly the best in Bengaluru."</p>
+        <div class="t-author">
+          <div class="t-avatar">👩</div>
+          <div>
+            <div class="t-name">Sunitha Reddy</div>
+            <div class="t-label">Parent of Young Patient</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card fade-up">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text">"Had a dental emergency and they attended me within minutes. The facilities are world-class
+          and the staff is very professional. Thank you RRDC&H!"</p>
+        <div class="t-author">
+          <div class="t-avatar">👴</div>
+          <div>
+            <div class="t-name">Mohan Krishnaswamy</div>
+            <div class="t-label">Emergency Patient</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== BOTTOM STRIP ====== -->
+  <div class="bottom-strip">
+    <div class="strip-item fade-up">
+      <span class="strip-icon">🎓</span>
+      <span class="strip-label">Recognised & Accredited</span>
+      <span class="strip-sublabel">DCI, NAAC, NABH & Royal College of Physicians (UK)</span>
+    </div>
+    <div class="strip-item fade-up">
+      <span class="strip-icon">🩺</span>
+      <span class="strip-label">Expert Doctors</span>
+      <span class="strip-sublabel">Specialists across all dental departments</span>
+    </div>
+    <div class="strip-item fade-up">
+      <span class="strip-icon">🔬</span>
+      <span class="strip-label">Modern Equipment</span>
+      <span class="strip-sublabel">CBCT imaging and latest dental technology</span>
+    </div>
+  </div>
+
+  <!-- ====== FOOTER ====== -->
+  <footer class="main-footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo-text">
+          <span class="logo-title" data-i18n="logoTitle">RajaRajeswari Dental College</span>
+          <span class="logo-subtitle" data-i18n="logoSub">And Hospital, Bengaluru</span>
+        </div>
+        <p>Providing excellence in dental care and education since 1991. Our commitment to patients and students drives
+          everything we do.</p>
+      </div>
+      <div class="footer-col" style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:0.5rem; white-space:nowrap;">
+        <div>
+          <h4>Quick Links</h4>
+          <a href="index.html">🏠 Home</a>
+          <a href="about.html">🏥 About</a>
+          <a href="admissions.html">📚 Admissions</a>
+          <a href="campus-tour.html">🗺️ Campus Tour</a>
+          <a href="contact.html">📞 Contact</a>
+          <a href="contact.html#appointment">📅 Book Appt</a>
+          <a href="alumni.html">🎓 Alumni</a>
+        </div>
+        <div>
+          <h4>More Features</h4>
+          <a href="3d-viewer.html">🦷 3D Viewer</a>
+          <a href="teledentistry.html">🎥 Tele-Dentistry</a>
+          <a href="opd-queue.html">⏱️ Live OPD</a>
+          <a href="careers.html">💼 Careers</a>
+          <a href="outreach.html">🌍 Camps</a>
+          <a href="research.html">🔬 Research</a>
+          <a href="blood-bank.html">🩸 Blood Bank</a>
+        </div>
+        <div>
+          <h4>Interactive</h4>
+          <a href="cost-estimator.html">💰 Cost Estimator</a>
+          <a href="prescription-viewer.html">📄 E-Records</a>
+          <a href="smile-studio.html">🤩 Smile Studio</a>
+          <a href="kids-tracker.html">🎈 Kids Tracker</a>
+          <a href="student-dashboard.html">📊 Student Portal</a>
+          <a href="sim-lab-booker.html">🔬 Lab Booker</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Contact Info</h4>
+        <p>📍 Mysore Road, Kengeri, Bengaluru – 560060</p>
+        <p>📞 +91-80-2843 7150 / 7468</p>
+        <p>✉️ principalrrdch@gmail.com</p>
+        <p>🕐 Mon–Sat : 9 AM – 5 PM</p>
+        <p>🚨 Emergency: 24/7</p>
+        <!-- <p style="margin-top:0.5rem; color:rgba(255,255,255,0.35); font-size:0.72rem;">
+          🖥 API: <a href="http://localhost:3000" target="_blank"
+            style="color:#60A5FA; font-size:0.72rem;">localhost:3000</a> -->
+        </p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Rajarajeswari Dental College &amp; Hospital. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- ====== FLOATING EMERGENCY BUTTON ====== -->
+  <!-- <a href="tel:+918028437150" class="float-emergency" id="float-emergency-btn" title="Call Emergency">
+    🚨 Emergency
+  </a> -->
+
+  <!-- ====== CHATBOT WIDGET ====== -->
+  <div class="chatbot-widget">
+    <div class="chatbot-window" id="chatbot-window">
+      <div class="chatbot-header">
+        <span class="chatbot-icon">🤖</span>
+        <span class="chatbot-title">RDCH Assistant</span>
+        <button class="chatbot-close" id="chatbot-close">✖</button>
+      </div>
+      <div class="chatbot-messages" id="chatbot-messages">
+        <div class="chat-msg bot">Hello! I am the RDCH virtual assistant. How can I help you today?</div>
+        <div class="chat-options">
+          <button class="chat-opt-btn" onclick="sendQuickReply('Book Appointment')">Book Appointment</button>
+          <button class="chat-opt-btn" onclick="sendQuickReply('View Courses')">View Courses</button>
+          <button class="chat-opt-btn" onclick="sendQuickReply('Emergency Number')">Emergency Number</button>
+        </div>
+      </div>
+      <div class="chatbot-input-area">
+        <input type="text" class="chat-input" id="chat-input" placeholder="Type your message...">
+        <button class="chat-send" id="chat-send">➤</button>
+      </div>
+    </div>
+    <button class="chatbot-toggle" id="chatbot-toggle">💬</button>
+  </div>
+
+  <script src="lang.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>

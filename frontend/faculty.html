@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Faculty Portal — RajaRajeswari Dental College: Faculty directory, schedules, research, curriculum and teaching resources.">
+  <title>Faculty Portal — RajaRajeswari Dental College &amp; Hospital</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Hind+Kannada:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <style>
+    .dept-tabs { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .dept-tab { background: var(--light-bg); border: 1.5px solid var(--border-light); color: var(--text-secondary);
+      padding: 0.45rem 1rem; font-size: var(--fs-sm); font-weight: 600; border-radius: 50px;
+      cursor: pointer; font-family:'Poppins',sans-serif; transition: all 0.2s ease; }
+    .dept-tab.active, .dept-tab:hover { background: #16A34A; color: white; border-color: #16A34A; }
+
+    .pub-card { background: var(--white); border: 1.5px solid var(--border-light); border-radius: var(--radius-lg);
+      padding: 1.4rem; margin-bottom: 1rem; transition: all 0.2s ease; }
+    .pub-card:hover { box-shadow: var(--shadow-md); border-color: #BBF7D0; }
+    .pub-title { font-size: var(--fs-base); font-weight: 700; color: var(--text-primary); margin-bottom: 0.3rem; }
+    .pub-journal { font-size: var(--fs-sm); color: #16A34A; font-weight: 600; }
+    .pub-authors { font-size: var(--fs-sm); color: var(--text-muted); margin-top: 0.2rem; font-style: italic; }
+    .pub-badges { display: flex; gap: 0.5rem; margin-top: 0.5rem; flex-wrap: wrap; }
+    .pub-badge { background: #F0FDF4; color: #16A34A; border: 1px solid #BBF7D0; border-radius: 50px;
+      font-size: 0.72rem; font-weight: 600; padding: 0.15rem 0.6rem; }
+
+    .schedule-card { background: var(--white); border: 1.5px solid var(--border-light); border-radius: var(--radius-lg); overflow: hidden; }
+    .schedule-day { background: linear-gradient(90deg, #15803D, #16A34A); color: white;
+      padding: 0.6rem 1.2rem; font-size: var(--fs-sm); font-weight: 700; }
+    .schedule-slot { display: flex; justify-content: space-between; align-items: center;
+      padding: 0.65rem 1.2rem; font-size: var(--fs-sm); border-bottom: 1px solid var(--border-light);
+      color: var(--text-secondary); }
+    .schedule-slot:last-child { border-bottom: none; }
+    .schedule-slot strong { color: var(--text-primary); }
+    .slot-type { font-size: 0.72rem; font-weight: 600; padding: 0.15rem 0.6rem; border-radius: 50px; }
+    .slot-type.lecture  { background: #DBEAFE; color: #1D4ED8; }
+    .slot-type.clinical { background: #DCFCE7; color: #16A34A; }
+    .slot-type.meeting  { background: #FEF3C7; color: #D97706; }
+    .slot-type.free     { background: var(--light-bg); color: var(--text-muted); }
+
+    @media (max-width: 768px) {
+      .two-col-faculty { grid-template-columns: 1fr !important; }
+    }
+  </style>
+</head>
+<body class="inner-page">
+
+  <!-- GLASS NAV -->
+  <nav class="glass-nav">
+    <a href="index.html" class="logo">🦷 RDCH</a>
+    <div class="nav-links">
+      <a href="index.html" id="nav-home">🏠 Home</a>
+      <a href="students.html" id="nav-students">🎓 Students</a>
+      <a href="faculty.html" class="active" id="nav-faculty">👩‍🏫 Faculty</a>
+      <a href="about.html" id="nav-about">🏥 About</a>
+      <a href="contact.html" id="nav-contact">📞 Contact</a>
+      <a href="#" id="lang-toggle" class="lang-text-btn" style="padding:0.4rem 0.9rem; font-size:0.8rem; border-radius:50px;">EN / ಕನ್ನಡ</a>
+    </div>
+  </nav>
+
+  <!-- INNER HERO -->
+  <div class="inner-hero fade-up" style="background: linear-gradient(135deg, #14532D 0%, #16A34A 100%);">
+    <h1>👩‍🏫 Faculty Portal</h1>
+    <p>Access the faculty directory, weekly schedules, research publications, curriculum tools, and student management resources.</p>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="inner-content">
+
+    <!-- WELCOME BANNER -->
+    <div class="glass-panel fade-up" style="background:linear-gradient(135deg,#F0FDF4,#DCFCE7); border-color:#BBF7D0; margin-bottom:2rem;">
+      <div style="display:flex; align-items:center; gap:1rem; flex-wrap:wrap;">
+        <span style="font-size:3rem;">👋</span>
+        <div>
+          <h2 style="font-size:var(--fs-xl); font-weight:800; color:#15803D; margin-bottom:0.2rem;">Welcome, Faculty Member!</h2>
+          <p style="font-size:var(--fs-base); color:var(--text-secondary);">Academic Year 2025–26 &nbsp;|&nbsp; RDCH, Bengaluru</p>
+        </div>
+        <div style="margin-left:auto; display:flex; gap:0.75rem; flex-wrap:wrap;">
+          <a href="students.html" class="btn btn-orange" style="background:#16A34A; border-radius:var(--radius-md);">🎓 View Students</a>
+          <a href="http://localhost:3000/admin" target="_blank" class="btn btn-orange" style="border-radius:var(--radius-md);">🔐 Admin Login</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- STAT PILLS -->
+    <div class="stat-pills fade-up">
+      <div class="stat-pill"><span class="stat-pill-icon">👩‍🏫</span><span class="stat-pill-num">48</span><span>Faculty Members</span></div>
+      <div class="stat-pill"><span class="stat-pill-icon">🎓</span><span class="stat-pill-num">320+</span><span>BDS Students</span></div>
+      <div class="stat-pill"><span class="stat-pill-icon">🦷</span><span class="stat-pill-num">9</span><span>Departments</span></div>
+      <div class="stat-pill"><span class="stat-pill-icon">🔬</span><span class="stat-pill-num">67</span><span>Research Papers 2025</span></div>
+      <div class="stat-pill"><span class="stat-pill-icon">📚</span><span class="stat-pill-num">1200+</span><span>Library Books</span></div>
+    </div>
+
+    <!-- FACULTY DIRECTORY -->
+    <div class="section-header fade-up" style="text-align:left; margin-top:3rem;">
+      <span class="section-badge" style="background:#F0FDF4; color:#16A34A; border-color:#BBF7D0;">👥 Directory</span>
+      <h2 class="section-title">Faculty Directory</h2>
+    </div>
+    <div class="dept-tabs fade-up">
+      <button class="dept-tab active">All Departments</button>
+      <button class="dept-tab">Orthodontics</button>
+      <button class="dept-tab">Oral Surgery</button>
+      <button class="dept-tab">Periodontology</button>
+      <button class="dept-tab">Paedodontics</button>
+      <button class="dept-tab">Prosthodontics</button>
+      <button class="dept-tab">Community Dentistry</button>
+    </div>
+    <div class="faculty-grid fade-up">
+      <div class="faculty-card-item">
+        <div class="faculty-avatar-wrap">👨‍⚕️</div>
+        <div class="faculty-name">Dr. Rajesh Kumar</div>
+        <div class="faculty-dept">Prof. & HOD, Orthodontics</div>
+        <div class="faculty-qual">MDS (Orthodontics) · 20+ Yrs</div>
+      </div>
+      <div class="faculty-card-item">
+        <div class="faculty-avatar-wrap">👩‍⚕️</div>
+        <div class="faculty-name">Dr. Priya Sharma</div>
+        <div class="faculty-dept">Reader, Paedodontics</div>
+        <div class="faculty-qual">MDS (Paedodontics) · 15+ Yrs</div>
+      </div>
+      <div class="faculty-card-item">
+        <div class="faculty-avatar-wrap">👨‍⚕️</div>
+        <div class="faculty-name">Dr. Anil Mehta</div>
+        <div class="faculty-dept">Prof., Oral Surgery</div>
+        <div class="faculty-qual">MDS (Oral Surgery) · 18+ Yrs</div>
+      </div>
+      <div class="faculty-card-item">
+        <div class="faculty-avatar-wrap">👩‍⚕️</div>
+        <div class="faculty-name">Dr. Kavitha Rao</div>
+        <div class="faculty-dept">Associate Prof., Periodontology</div>
+        <div class="faculty-qual">MDS (Periodontology) · 12+ Yrs</div>
+      </div>
+      <div class="faculty-card-item">
+        <div class="faculty-avatar-wrap">👨‍⚕️</div>
+        <div class="faculty-name">Dr. Suresh Nair</div>
+        <div class="faculty-dept">Professor, Prosthodontics</div>
+        <div class="faculty-qual">MDS (Prosthodontics) · 17+ Yrs</div>
+      </div>
+      <div class="faculty-card-item">
+        <div class="faculty-avatar-wrap">👩‍⚕️</div>
+        <div class="faculty-name">Dr. Ananya Krishnan</div>
+        <div class="faculty-dept">Lecturer, Community Dentistry</div>
+        <div class="faculty-qual">MDS (Community Dentistry) · 8+ Yrs</div>
+      </div>
+      <div class="faculty-card-item">
+        <div class="faculty-avatar-wrap">👨‍⚕️</div>
+        <div class="faculty-name">Dr. Vikram Shetty</div>
+        <div class="faculty-dept">Reader, Conservative Dentistry</div>
+        <div class="faculty-qual">MDS (Conservative) · 14+ Yrs</div>
+      </div>
+      <div class="faculty-card-item">
+        <div class="faculty-avatar-wrap">👩‍⚕️</div>
+        <div class="faculty-name">Dr. Meena Gowda</div>
+        <div class="faculty-dept">Lecturer, Oral Pathology</div>
+        <div class="faculty-qual">MDS (Oral Pathology) · 9+ Yrs</div>
+      </div>
+    </div>
+
+    <!-- SCHEDULES + RESEARCH TWO COL -->
+    <div class="two-col-faculty fade-up" style="display:grid; grid-template-columns:1fr 1fr; gap:2rem; margin-top:3rem;">
+
+      <!-- WEEKLY SCHEDULE -->
+      <div>
+        <div class="section-header" style="text-align:left; margin-bottom:1rem;">
+          <span class="section-badge" style="background:#F0FDF4; color:#16A34A; border-color:#BBF7D0;">📅 Schedule</span>
+          <h2 class="section-title" style="font-size:var(--fs-xl);">Faculty Weekly Schedule</h2>
+        </div>
+        <div class="schedule-card">
+          <div class="schedule-day">Monday</div>
+          <div class="schedule-slot"><span><strong>9–10 AM</strong> · BDS 3rd Yr Lecture</span><span class="slot-type lecture">Lecture</span></div>
+          <div class="schedule-slot"><span><strong>10–11 AM</strong> · Dept Meeting</span><span class="slot-type meeting">Meeting</span></div>
+          <div class="schedule-slot"><span><strong>11 AM–1 PM</strong> · OPD Supervision</span><span class="slot-type clinical">Clinical</span></div>
+          <div class="schedule-slot"><span><strong>2–4 PM</strong> · MDS Tutorial</span><span class="slot-type lecture">Lecture</span></div>
+          <div class="schedule-slot"><span><strong>4–5 PM</strong> · Free Period</span><span class="slot-type free">Free</span></div>
+        </div>
+        <div class="schedule-card" style="margin-top:0.75rem;">
+          <div class="schedule-day">Tuesday</div>
+          <div class="schedule-slot"><span><strong>9–10 AM</strong> · Journal Club</span><span class="slot-type meeting">Research</span></div>
+          <div class="schedule-slot"><span><strong>10 AM–1 PM</strong> · OPD Supervision</span><span class="slot-type clinical">Clinical</span></div>
+          <div class="schedule-slot"><span><strong>2–4 PM</strong> · Case Presentations</span><span class="slot-type lecture">Seminar</span></div>
+          <div class="schedule-slot"><span><strong>4–5 PM</strong> · Research Work</span><span class="slot-type free">Research</span></div>
+        </div>
+        <div class="schedule-card" style="margin-top:0.75rem;">
+          <div class="schedule-day">Wednesday – Friday</div>
+          <div class="schedule-slot"><span><strong>9 AM–1 PM</strong> · OPD Supervision</span><span class="slot-type clinical">Clinical</span></div>
+          <div class="schedule-slot"><span><strong>2–4 PM</strong> · Department Lectures</span><span class="slot-type lecture">Lecture</span></div>
+          <div class="schedule-slot"><span><strong>4–5 PM</strong> · Student Counselling</span><span class="slot-type meeting">Meeting</span></div>
+        </div>
+      </div>
+
+      <!-- RECENT PUBLICATIONS -->
+      <div>
+        <div class="section-header" style="text-align:left; margin-bottom:1rem;">
+          <span class="section-badge" style="background:#F0FDF4; color:#16A34A; border-color:#BBF7D0;">🔬 Research</span>
+          <h2 class="section-title" style="font-size:var(--fs-xl);">Recent Publications</h2>
+        </div>
+        <div class="pub-card">
+          <div class="pub-title">Efficacy of CBCT in Early Detection of Periapical Pathologies</div>
+          <div class="pub-journal">Journal of Oral Radiology and Endodontology · 2025</div>
+          <div class="pub-authors">Dr. Anil Mehta, Dr. Kavitha Rao, Dr. Suresh Nair</div>
+          <div class="pub-badges"><span class="pub-badge">Indexed</span><span class="pub-badge">Peer Reviewed</span></div>
+        </div>
+        <div class="pub-card">
+          <div class="pub-title">Orthodontic Treatment Outcomes in Adult vs Paediatric Patients: A 5-Year Study</div>
+          <div class="pub-journal">Indian Journal of Dental Research · 2025</div>
+          <div class="pub-authors">Dr. Rajesh Kumar, Dr. Priya Sharma</div>
+          <div class="pub-badges"><span class="pub-badge">RGUHS Funded</span><span class="pub-badge">Peer Reviewed</span></div>
+        </div>
+        <div class="pub-card">
+          <div class="pub-title">Periodontal Disease Prevalence in Type 2 Diabetics — Bengaluru Urban Study</div>
+          <div class="pub-journal">Community Dentistry &amp; Oral Epidemiology · 2024</div>
+          <div class="pub-authors">Dr. Kavitha Rao, Dr. Ananya Krishnan</div>
+          <div class="pub-badges"><span class="pub-badge">ICMR Cited</span></div>
+        </div>
+        <div class="pub-card">
+          <div class="pub-title">Digital Impressions vs Conventional Impressions in Fixed Prosthodontics</div>
+          <div class="pub-journal">Journal of Prosthodontic Research · 2024</div>
+          <div class="pub-authors">Dr. Suresh Nair, Dr. Vikram Shetty</div>
+          <div class="pub-badges"><span class="pub-badge">Indexed</span><span class="pub-badge">Q2 Journal</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FACULTY RESOURCES -->
+    <div class="section-header fade-up" style="text-align:left; margin-top:3rem;">
+      <span class="section-badge" style="background:#F0FDF4; color:#16A34A; border-color:#BBF7D0;">📖 Resources</span>
+      <h2 class="section-title">Faculty Teaching Resources</h2>
+    </div>
+    <div class="resource-grid fade-up">
+      <div class="resource-card" style="border-color:#BBF7D0;">
+        <span class="r-icon">📖</span>
+        <h4>Curriculum Framework</h4>
+        <p>RGUHS-approved BDS &amp; MDS curriculum documents, syllabus PDFs and lesson plan templates.</p>
+      </div>
+      <div class="resource-card" style="border-color:#BBF7D0;">
+        <span class="r-icon">📋</span>
+        <h4>Attendance Sheets</h4>
+        <p>Download or fill digital attendance sheets for each batch. Sync with the student portal automatically.</p>
+      </div>
+      <div class="resource-card" style="border-color:#BBF7D0;">
+        <span class="r-icon">📊</span>
+        <h4>Internal Assessment</h4>
+        <p>Upload marks for internal exams, practicals and viva. View student performance analytics.</p>
+      </div>
+      <div class="resource-card" style="border-color:#BBF7D0;">
+        <span class="r-icon">🔬</span>
+        <h4>Research Support</h4>
+        <p>Protocols for ethical committee submissions, ICMR application templates, and collaboration board.</p>
+      </div>
+      <div class="resource-card" style="border-color:#BBF7D0;">
+        <span class="r-icon">📢</span>
+        <h4>Post Announcements</h4>
+        <p>Publish exam dates, camp schedules, seminar invites and important notices for students.</p>
+      </div>
+      <div class="resource-card" style="border-color:#BBF7D0;">
+        <span class="r-icon">🏛️</span>
+        <h4>Conference &amp; CME</h4>
+        <p>View upcoming dental conferences, CME programmes, workshop registrations and travel grants.</p>
+      </div>
+    </div>
+
+    <!-- ANNOUNCEMENTS -->
+    <div class="section-header fade-up" style="text-align:left; margin-top:3rem;">
+      <span class="section-badge" style="background:#F0FDF4; color:#16A34A; border-color:#BBF7D0;">📢 Notices</span>
+      <h2 class="section-title">Faculty Notices &amp; Events</h2>
+    </div>
+    <ul class="timeline fade-up">
+      <li class="timeline-item">
+        <div class="timeline-dot red">🚨</div>
+        <div class="timeline-body">
+          <div class="timeline-date">Apr 12, 2026</div>
+          <div class="timeline-title">Exam Paper Submission Deadline</div>
+          <div class="timeline-desc">All faculty must submit internal assessment marks to the exam cell by April 14. Late submissions will not be accepted.</div>
+        </div>
+      </li>
+      <li class="timeline-item">
+        <div class="timeline-dot green">🔬</div>
+        <div class="timeline-body">
+          <div class="timeline-date">Apr 18, 2026</div>
+          <div class="timeline-title">Research Methodology Workshop</div>
+          <div class="timeline-desc">Full-day workshop on research methodology and SPSS data analysis. Venue: Conference Hall A. RGUHS credit hours recognised.</div>
+        </div>
+      </li>
+      <li class="timeline-item">
+        <div class="timeline-dot yellow">📅</div>
+        <div class="timeline-body">
+          <div class="timeline-date">Apr 24, 2026</div>
+          <div class="timeline-title">Academic Council Meeting</div>
+          <div class="timeline-desc">Quarterly academic council meeting. All HODs and senior faculty must attend. BDS 4th year curriculum revision on the agenda.</div>
+        </div>
+      </li>
+      <li class="timeline-item">
+        <div class="timeline-dot blue">🏛️</div>
+        <div class="timeline-body">
+          <div class="timeline-date">May 5–7, 2026</div>
+          <div class="timeline-title">IADA Annual Conference — Bengaluru</div>
+          <div class="timeline-desc">RDCH is co-hosting the IADA 2026 Annual Conference. Faculty presenting papers must register by April 20. Sponsorship available.</div>
+        </div>
+      </li>
+    </ul>
+
+  </div>
+
+  <!-- GLASS FOOTER -->
+  <footer class="glass-footer">
+    <p>&copy; 2026 Rajarajeswari Dental College &amp; Hospital. Faculty Portal.</p>
+  </footer>
+
+  <a href="tel:08028484210" class="float-emergency" title="Emergency">🚨 Emergency</a>
+
+  <script src="lang.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

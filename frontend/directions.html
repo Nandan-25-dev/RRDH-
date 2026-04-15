@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Get directions to Rajarajeswari Dental College and Hospital on Mysore Road, Bengaluru. Google Maps embedded for easy navigation.">
+  <title>Directions — RajaRajeswari Dental College &amp; Hospital</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Hind+Kannada:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <style>
+    /* Transport cards */
+    .transport-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .transport-card {
+      background: var(--card-bg);
+      border: 2px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 2rem 1.5rem;
+      text-align: center;
+      transition: all 0.25s ease;
+    }
+    .transport-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--brand-red);
+    }
+    .transport-icon { font-size: 3rem; display: block; margin-bottom: 0.8rem; }
+    .transport-title { font-size: var(--fs-lg); font-weight: 700; color: var(--text-primary); margin-bottom: 0.4rem; }
+    .transport-desc  { font-size: var(--fs-sm); color: var(--text-secondary); line-height: 1.6; }
+
+    /* Open maps button */
+    .open-maps-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: linear-gradient(135deg, #1A73E8, #0D62C9);
+      color: white;
+      text-decoration: none;
+      font-size: var(--fs-lg);
+      font-weight: 700;
+      padding: 1.1rem 2.5rem;
+      border-radius: var(--radius-md);
+      box-shadow: 0 6px 20px rgba(26,115,232,0.4);
+      transition: all 0.25s ease;
+      font-family: 'Poppins', sans-serif;
+      margin-top: 1.5rem;
+    }
+    .open-maps-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(26,115,232,0.5);
+    }
+  </style>
+</head>
+<body class="inner-page">
+
+  <!-- GLASS NAV -->
+  <nav class="glass-nav">
+    <a href="index.html" class="logo">🦷 RDCH</a>
+    <div class="nav-links">
+      <a href="index.html" data-i18n="navHome" id="nav-home">🏠 Home</a>
+      <a href="about.html" data-i18n="navAbout" id="nav-about">🏥 About</a>
+      <a href="directions.html" class="active" id="nav-dir">📍 Directions</a>
+      <a href="contact.html" data-i18n="navContact" id="nav-contact">📞 Contact</a>
+      <a href="contact.html#appointment" id="nav-appt">📅 Appointment</a>
+      <a href="#" id="lang-toggle" class="lang-text-btn" style="padding: 0.45rem 1rem; font-size: 1rem; border-radius: 50px;">EN / ಕನ್ನಡ</a>
+    </div>
+  </nav>
+
+  <!-- INNER HERO -->
+  <div class="inner-hero fade-up">
+    <h1 data-i18n="directionsTitle">How to Reach Us</h1>
+    <p data-i18n="directionsDesc">Find your way to Rajarajeswari Dental College &amp; Hospital. We are conveniently located on Mysore Road, Bengaluru.</p>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="inner-content">
+
+    <!-- Hospital building image -->
+    <div class="hospital-image-wrap fade-up" style="margin-bottom:2.5rem; max-height:380px;">
+      <img src="hospital-building.jpg" alt="Rajarajeswari Dental College and Hospital building" loading="lazy" style="max-height:380px;">
+      <div class="hospital-caption">📍 Mysore Road, Kengeri Satellite Town, Bengaluru — 560060</div>
+    </div>
+
+    <!-- Address card + Open Maps button -->
+    <div class="address-card fade-up" style="margin-bottom:2.5rem;">
+      <h3>📍 Find Us Here</h3>
+
+      <div class="addr-row">
+        <span class="addr-icon">🏥</span>
+        <div>
+          <strong>Rajarajeswari Dental College &amp; Hospital</strong><br>
+          Mysore Road, Kengeri Satellite Town,<br>
+          Bengaluru, Karnataka – 560060
+        </div>
+      </div>
+
+      <div class="addr-row">
+        <span class="addr-icon">📞</span>
+        <div><strong>Phone:</strong> 080 – 2848 4210</div>
+      </div>
+
+      <div class="addr-row">
+        <span class="addr-icon">🕐</span>
+        <div><strong>OPD Timing:</strong> Monday – Saturday · 9:00 AM to 5:00 PM<br>
+        🚨 Emergency Care: 24 Hours &amp; 7 Days</div>
+      </div>
+
+      <div class="addr-row">
+        <span class="addr-icon">🚌</span>
+        <div><strong>Nearest Bus Stop:</strong> Kengeri Satellite Town Bus Terminal (BMTC)</div>
+      </div>
+
+      <div class="addr-row">
+        <span class="addr-icon">🚇</span>
+        <div><strong>Nearest Metro:</strong> Kengeri Metro Station (Purple Line)</div>
+      </div>
+
+      <a href="https://maps.google.com/?q=Rajarajeswari+Dental+College+and+Hospital+Bengaluru" target="_blank" rel="noopener noreferrer" class="open-maps-btn" id="btn-open-maps">
+        🗺️ Open in Google Maps
+      </a>
+    </div>
+
+    <!-- GOOGLE MAP EMBED -->
+    <div class="map-container fade-up">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.7509497746197!2d77.45600647411961!3d12.891583015923985!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae3f2405aaaaab%3A0xe7f9ced68cdb2ef6!2sRajarajeswari%20Dental%20College%20and%20Hospital!5e0!3m2!1sen!2sin!4v1712869038234!5m2!1sen!2sin"
+        title="Rajarajeswari Dental College and Hospital on Google Maps"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+    </div>
+
+    <!-- HOW TO REACH -->
+    <div class="section-header fade-up" style="margin-top:4rem;">
+      <span class="section-badge">🚗 Getting Here</span>
+      <h2 class="section-title">How to Reach Us</h2>
+      <p class="section-subtitle">Multiple convenient transport options are available from all parts of Bengaluru.</p>
+    </div>
+
+    <div class="transport-grid">
+      <div class="transport-card fade-up">
+        <span class="transport-icon">🚇</span>
+        <div class="transport-title">Metro</div>
+        <p class="transport-desc">Kengeri Metro Station on the Purple Line. 5-minute auto ride from station exit.</p>
+      </div>
+      <div class="transport-card fade-up">
+        <span class="transport-icon">🚌</span>
+        <div class="transport-title">BMTC Bus</div>
+        <p class="transport-desc">Several BMTC routes stop at Kengeri Satellite Town. Walk 2 minutes to entrance.</p>
+      </div>
+      <div class="transport-card fade-up">
+        <span class="transport-icon">🛺</span>
+        <div class="transport-title">Auto / Cab</div>
+        <p class="transport-desc">Readily available from Mysore Road. Use Ola or Uber and search "RDCH Bentgaluru".</p>
+      </div>
+      <div class="transport-card fade-up">
+        <span class="transport-icon">🚗</span>
+        <div class="transport-title">By Own Vehicle</div>
+        <p class="transport-desc">Ample free parking available on campus. Enter from Mysore Road main gate.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- GLASS FOOTER -->
+  <footer class="glass-footer">
+    <p data-i18n="footerText">&copy; 2026 Rajarajeswari Dental College &amp; Hospital. Advancing Care.</p>
+  </footer>
+
+  <script src="lang.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

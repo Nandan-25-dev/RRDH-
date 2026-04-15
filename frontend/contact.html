@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Contact Rajarajeswari Dental College and Hospital — Book an appointment or reach us for any dental emergency in Bengaluru.">
+  <title>Contact &amp; Appointments — RajaRajeswari Dental College &amp; Hospital</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Hind+Kannada:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <style>
+    /* Contact page extras */
+    .contact-two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+    .contact-info-card {
+      background: var(--brand-blue);
+      border-radius: var(--radius-xl);
+      padding: 3rem 2.5rem;
+      color: var(--white);
+      box-shadow: var(--shadow-lg);
+    }
+    .contact-info-card h3 {
+      font-size: var(--fs-xl);
+      font-weight: 800;
+      color: var(--brand-yellow);
+      margin-bottom: 1.5rem;
+    }
+    .info-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+      font-size: var(--fs-base);
+      color: rgba(255,255,255,0.85);
+      line-height: 1.6;
+    }
+    .info-row:last-child { border-bottom: none; }
+    .info-icon { font-size: 1.8rem; min-width: 38px; text-align: center; }
+
+    /* Emergency strip */
+    .emergency-strip {
+      background: linear-gradient(135deg, #C0392B, #922B21);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      margin-top: 2rem;
+      text-align: center;
+    }
+    .emergency-strip .emg-label {
+      font-size: var(--fs-xs);
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 0.4rem;
+    }
+    .emergency-strip .emg-num {
+      font-size: var(--fs-2xl);
+      font-weight: 900;
+      color: var(--white);
+    }
+    .emergency-strip .emg-sub {
+      font-size: var(--fs-sm);
+      color: rgba(255,255,255,0.75);
+      margin-top: 0.3rem;
+    }
+
+    @media (max-width: 900px) {
+      .contact-two-col {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body class="inner-page">
+
+  <!-- GLASS NAV -->
+  <nav class="glass-nav">
+    <a href="index.html" class="logo">🦷 RDCH</a>
+    <div class="nav-links">
+      <a href="index.html" data-i18n="navHome" id="nav-home">🏠 Home</a>
+      <a href="about.html" data-i18n="navAbout" id="nav-about">🏥 About</a>
+      <a href="directions.html" id="nav-dir">📍 Directions</a>
+      <a href="contact.html" class="active" data-i18n="navContact" id="nav-contact">📞 Contact</a>
+      <a href="#" id="lang-toggle" class="lang-text-btn" style="padding: 0.45rem 1rem; font-size: 1rem; border-radius: 50px;">EN / ಕನ್ನಡ</a>
+    </div>
+  </nav>
+
+  <!-- INNER HERO -->
+  <div class="inner-hero fade-up">
+    <h1 data-i18n="contactTitle">Contact Us</h1>
+    <p data-i18n="contactDesc">Reach out to us for any queries, emergencies, or to book an appointment. We are here to help — 24/7 Dental Care available.</p>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="inner-content" id="appointment">
+    <div class="contact-two-col">
+
+      <!-- BOOKING FORM -->
+      <div class="glass-panel fade-up">
+        <span class="section-badge" style="margin-bottom:1rem; display:inline-block;">📅 Book Appointment</span>
+        <h2 style="font-size:var(--fs-xl); font-weight:800; margin-bottom:0.5rem;" data-i18n="contactTitle">Contact &amp; Book</h2>
+        <p style="font-size:var(--fs-sm); color:var(--text-secondary); margin-bottom:2rem;">Fill the form below and we will confirm your appointment shortly.</p>
+
+        <form id="booking-form" novalidate>
+          <div class="form-group">
+            <label for="name">👤 Full Name</label>
+            <input type="text" id="name" name="name" placeholder="Enter your full name" required autocomplete="name">
+          </div>
+          <div class="form-group">
+            <label for="phone">📞 Phone Number</label>
+            <input type="tel" id="phone" name="phone" placeholder="Enter your mobile number" required autocomplete="tel">
+          </div>
+          <div class="form-group">
+            <label for="department">🦷 Department / Inquiry Type</label>
+            <select id="department" name="department" required>
+              <option value="" disabled selected>Select Department or Inquiry</option>
+              <option value="General">General Dentistry</option>
+              <option value="Orthodontics">Orthodontics (Braces)</option>
+              <option value="Surgery">Oral Surgery</option>
+              <option value="CBCT">CBCT Imaging</option>
+              <option value="Paedo">Paedodontics (Children)</option>
+              <option value="Emergency">Dental Emergency</option>
+              <option value="Appointment">Book Appointment</option>
+              <option value="General Inquiry">General Inquiry</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="date">📅 Preferred Date (optional)</label>
+            <input type="date" id="date" name="date">
+          </div>
+          <div class="form-group">
+            <label for="message">💬 Message (optional)</label>
+            <textarea id="message" name="message" rows="3" placeholder="Any additional details or special requirements..." style="resize:vertical;"></textarea>
+          </div>
+          <button type="submit" class="btn-form" id="btn-submit-form">
+            ✅ Send &amp; Request Appointment
+          </button>
+        </form>
+        <div id="booking-message" class="hidden"></div>
+      </div>
+
+      <!-- CONTACT INFO -->
+      <div>
+        <div class="contact-info-card fade-up">
+          <h3>📋 Hospital Information</h3>
+
+          <div class="info-row">
+            <span class="info-icon">📍</span>
+            <div>
+              <strong style="display:block; margin-bottom:0.2rem;">Address</strong>
+              Mysore Road, Kengeri Satellite Town,<br>Bengaluru, Karnataka – 560060
+            </div>
+          </div>
+
+          <div class="info-row">
+            <span class="info-icon">📞</span>
+            <div>
+              <strong style="display:block; margin-bottom:0.2rem;">Phone</strong>
+              080 – 2848 4210
+            </div>
+          </div>
+
+          <div class="info-row">
+            <span class="info-icon">🕐</span>
+            <div>
+              <strong style="display:block; margin-bottom:0.2rem;">OPD Hours</strong>
+              Monday – Saturday<br>9:00 AM – 5:00 PM
+            </div>
+          </div>
+
+          <div class="info-row">
+            <span class="info-icon">🎓</span>
+            <div>
+              <strong style="display:block; margin-bottom:0.2rem;">Affiliation</strong>
+              Rajiv Gandhi University of Health Sciences<br>Dental Council of India – Approved
+            </div>
+          </div>
+
+          <!-- Emergency strip -->
+          <div class="emergency-strip">
+            <div class="emg-label">🚨 24/7 Dental Emergency</div>
+            <div class="emg-num">080 – 2848 4210</div>
+            <div class="emg-sub">Call anytime — we are always here for you</div>
+          </div>
+        </div>
+
+        <!-- Directions CTA -->
+        <a href="directions.html" class="quick-card fade-up" style="margin-top: 2rem; display:flex; text-decoration:none; border: 2px solid var(--border-light); background: var(--card-bg); color: var(--text-primary);">
+          <span class="q-icon" style="color: var(--brand-red);">📍</span>
+          <span class="q-title" style="color: var(--text-primary);">Get Directions on Map</span>
+          <span class="q-desc" style="color: var(--text-secondary);">Open Google Maps and navigate to our campus easily</span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- GLASS FOOTER -->
+  <footer class="glass-footer">
+    <p data-i18n="footerText">&copy; 2026 Rajarajeswari Dental College &amp; Hospital. Advancing Care.</p>
+  </footer>
+
+  <script src="lang.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

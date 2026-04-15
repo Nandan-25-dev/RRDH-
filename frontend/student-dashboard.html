@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Academic Dashboard — RDCH</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Hind+Kannada:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .dash-circle {
+        width: 120px; height: 120px; border-radius: 50%;
+        display: flex; align-items:center; justify-content:center;
+        font-size: 1.5rem; font-weight:800; margin: 0 auto 1rem;
+    }
+  </style>
+</head>
+<body class="inner-page">
+
+  <nav class="glass-nav">
+    <a href="index.html" class="logo">🦷 RDCH</a>
+    <div class="nav-links">
+      <a href="students.html">🎓 Student Menu</a>
+    </div>
+  </nav>
+
+  <div class="inner-hero fade-up hero-slim" style="background:#0F172A;">
+    <h1 class="page-title">Welcome back, Rahul</h1>
+    <p class="page-subtitle">BDS 3rd Year | ID: 2023-BDS-045</p>
+  </div>
+
+  <div class="inner-content">
+    <div style="background:#FFF; padding:1.5rem; border-radius:10px; margin-bottom:2rem; border-left:4px solid var(--brand-red);">
+        <h4 style="color:var(--brand-red); margin-bottom:0.5rem;">Message from the Chancellor's Desk</h4>
+        <p style="font-size:0.9rem; color:#444;">"We strive for excellence in dental education and clinical skills." - <strong>Dr. A. C. Shanmugam, Founder Chancellor</strong></p>
+    </div>
+
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:2rem;">
+        <div class="glass-panel" style="text-align:center;">
+            <div class="dash-circle" style="background: conic-gradient(var(--brand-green) 86%, #eee 0);">86%</div>
+            <h3 style="color:var(--brand-blue);">Overall Attendance</h3>
+            <p style="font-size:0.8rem; color:var(--text-secondary);">Min 75% required by DCI</p>
+        </div>
+        
+        <div class="glass-panel" style="text-align:center;">
+            <div class="dash-circle" style="background: conic-gradient(#F59E0B 72%, #eee 0);">72%</div>
+            <h3 style="color:var(--brand-blue);">Internal Aggregates</h3>
+            <p style="font-size:0.8rem; color:var(--text-secondary);">Latest: Oral Pathology</p>
+        </div>
+        
+        <div class="glass-panel" style="text-align:center;">
+            <div class="dash-circle" style="background: conic-gradient(var(--brand-red) 45%, #eee 0);">45/100</div>
+            <h3 style="color:var(--brand-blue);">Clinical Quota</h3>
+            <p style="font-size:0.8rem; color:var(--text-secondary);">Extractions Completed</p>
+        </div>
+    </div>
+  </div>
+
+  <footer class="main-footer" style="padding: 2rem; background: #0A1628; color: white; text-align: center;">
+    <p>&copy; 2026 Rajarajeswari Dental College &amp; Hospital.</p>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Registration - RRDC&H</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-row .form-group {
+            margin-bottom: 0;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .message {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+
+        .form-row.full {
+            grid-template-columns: 1fr;
+        }
+
+        .links {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .links a:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: #764ba2;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/admin/login" class="back-link">← Back to Login</a>
+        
+        <div class="header">
+            <h1>👨‍⚕️ Doctor Registration</h1>
+            <p>Join RRDC&H Hospital Medical Team</p>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <form id="doctorForm" onsubmit="handleSubmit(event)">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="firstName">First Name *</label>
+                    <input type="text" id="firstName" name="firstName" required>
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last Name *</label>
+                    <input type="text" id="lastName" name="lastName" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address *</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number *</label>
+                <input type="tel" id="phone" name="phone" required>
+            </div>
+
+            <div class="form-group">
+                <label for="specialization">Specialization *</label>
+                <select id="specialization" name="specialization" required>
+                    <option value="">-- Select Specialization --</option>
+                    <option value="General Medicine">General Medicine</option>
+                    <option value="Cardiology">Cardiology</option>
+                    <option value="Orthopedics">Orthopedics</option>
+                    <option value="Dermatology">Dermatology</option>
+                    <option value="Pediatrics">Pediatrics</option>
+                    <option value="Gynecology">Gynecology</option>
+                    <option value="Neurology">Neurology</option>
+                    <option value="Psychiatry">Psychiatry</option>
+                    <option value="ENT">ENT (Ear, Nose, Throat)</option>
+                    <option value="Dentistry">Dentistry</option>
+                    <option value="Ophthalmology">Ophthalmology</option>
+                    <option value="Radiology">Radiology</option>
+                    <option value="Surgery">Surgery</option>
+                    <option value="Oncology">Oncology</option>
+                    <option value="Urology">Urology</option>
+                </select>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="licenseNumber">License Number *</label>
+                    <input type="text" id="licenseNumber" name="licenseNumber" placeholder="e.g., MCI123456" required>
+                </div>
+                <div class="form-group">
+                    <label for="experience">Years of Experience *</label>
+                    <input type="number" id="experience" name="experience" min="0" max="60" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="consultationFee">Consultation Fee (₹) *</label>
+                <input type="number" id="consultationFee" name="consultationFee" min="100" required>
+            </div>
+
+            <div class="form-group">
+                <label for="bio">Professional Bio</label>
+                <textarea id="bio" name="bio" placeholder="Tell us about your qualifications and expertise..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password *</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password *</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required>
+            </div>
+
+            <button type="submit" class="submit-btn">📝 Register as Doctor</button>
+        </form>
+
+        <div class="links">
+            <p>Already have an account? <a href="/admin/login">Login here</a></p>
+        </div>
+    </div>
+
+    <script>
+        function showMessage(msg, type) {
+            const msgDiv = document.getElementById('message');
+            msgDiv.textContent = msg;
+            msgDiv.className = 'message ' + type;
+            msgDiv.style.display = 'block';
+        }
+
+        function handleSubmit(event) {
+            event.preventDefault();
+
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const specialization = document.getElementById('specialization').value;
+            const licenseNumber = document.getElementById('licenseNumber').value.trim();
+            const experience = document.getElementById('experience').value;
+            const consultationFee = document.getElementById('consultationFee').value;
+            const bio = document.getElementById('bio').value.trim();
+
+            // Validation
+            if (!firstName || !lastName || !email || !phone || !specialization || !licenseNumber || !experience || !consultationFee || !password) {
+                showMessage('❌ Please fill in all required fields', 'error');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showMessage('❌ Passwords do not match', 'error');
+                return;
+            }
+
+            if (password.length < 6) {
+                showMessage('❌ Password must be at least 6 characters', 'error');
+                return;
+            }
+
+            // Submit to API
+            submitRegistration({
+                firstName,
+                lastName,
+                email,
+                phone,
+                specialization,
+                licenseNumber,
+                experience: parseInt(experience),
+                consultationFee: parseFloat(consultationFee),
+                bio,
+                password
+            });
+        }
+
+        async function submitRegistration(data) {
+            try {
+                const response = await fetch('/api/doctor/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    showMessage('✅ Registration successful! You can now login.', 'success');
+                    document.getElementById('doctorForm').reset();
+                    setTimeout(() => {
+                        window.location.href = '/admin/login?tab=doctor';
+                    }, 2000);
+                } else {
+                    showMessage('❌ ' + (result.error || 'Registration failed'), 'error');
+                }
+            } catch (error) {
+                showMessage('❌ Error: ' + error.message, 'error');
+            }
+        }
+    </script>
+</body>
+</html>

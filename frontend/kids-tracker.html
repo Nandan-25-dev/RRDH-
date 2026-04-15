@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kids Oral Hygiene Tracker — RDCH</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body.kids-theme { font-family: 'Poppins', sans-serif; background: #FEF3C7; color: #D97706; }
+    .kids-nav { background: #FDE68A; padding: 1rem; border-bottom: 4px solid #F59E0B; text-align:center; font-size: 1.5rem; }
+    .star-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1rem; margin: 2rem 0; }
+    .day-card { background: white; border: 4px solid #FCD34D; border-radius: 20px; padding: 1rem; text-align:center; cursor:pointer; transition: 0.2s; }
+    .day-card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px rgba(245,158,11,0.2); }
+    .star-icon { font-size: 3rem; filter: grayscale(100%); opacity:0.3; transition:0.3s; }
+    .day-card.active .star-icon { filter: grayscale(0%); opacity:1; transform: scale(1.2); }
+  </style>
+</head>
+<body class="inner-page kids-theme">
+
+  <nav class="kids-nav">
+    <a href="index.html" style="text-decoration:none; color:#D97706;">🎈 RDCH Paedodontics</a>
+  </nav>
+
+  <div class="inner-hero hero-slim" style="background: none; text-align:center; box-shadow:none;">
+    <h1 style="color:#B45309; font-size:3rem;">My Brushing Tracker! 🦷✨</h1>
+    <p style="font-size:1.2rem; margin-top:1rem; color:#D97706;">Brush twice a day to earn gold stars. Show this to your doctor for a surprise!</p>
+  </div>
+
+  <div class="inner-content">
+    <div class="star-grid">
+      <div class="day-card" data-day="Mon">
+        <h3>Mon</h3>
+        <div class="star-icon">⭐</div>
+      </div>
+      <div class="day-card" data-day="Tue">
+        <h3>Tue</h3>
+        <div class="star-icon">⭐</div>
+      </div>
+      <div class="day-card" data-day="Wed">
+        <h3>Wed</h3>
+        <div class="star-icon">⭐</div>
+      </div>
+      <div class="day-card" data-day="Thu">
+        <h3>Thu</h3>
+        <div class="star-icon">⭐</div>
+      </div>
+      <div class="day-card" data-day="Fri">
+        <h3>Fri</h3>
+        <div class="star-icon">⭐</div>
+      </div>
+      <div class="day-card" data-day="Sat">
+        <h3>Sat</h3>
+        <div class="star-icon">⭐</div>
+      </div>
+      <div class="day-card" data-day="Sun">
+        <h3>Sun</h3>
+        <div class="star-icon">⭐</div>
+      </div>
+    </div>
+    
+    <div style="text-align:center; margin-top:3rem;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Tooth_icon_%28colored%29.svg/256px-Tooth_icon_%28colored%29.svg.png" alt="Happy Tooth" width="100">
+        <h2 style="margin-top:1rem; color:#B45309;">Keep it up, champion!</h2>
+    </div>
+  </div>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const dayCards = document.querySelectorAll('.day-card');
+      
+      dayCards.forEach(card => {
+        const day = card.getAttribute('data-day');
+        
+        // 1. Load from local storage when the page opens
+        if (localStorage.getItem('kids_tracker_' + day) === 'true') {
+          card.classList.add('active');
+        }
+        
+        // 2. Click event to toggle the star and save data
+        card.addEventListener('click', () => {
+          card.classList.toggle('active');
+          const isActive = card.classList.contains('active');
+          localStorage.setItem('kids_tracker_' + day, isActive);
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>

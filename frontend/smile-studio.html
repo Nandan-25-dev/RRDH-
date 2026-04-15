@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smile Makeover Studio — RDCH</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Hind+Kannada:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="inner-page">
+
+  <nav class="glass-nav">
+    <a href="index.html" class="logo">🦷 RDCH</a>
+    <div class="nav-links">
+      <a href="index.html">🏠 Home</a>
+    </div>
+  </nav>
+
+  <div class="inner-hero fade-up hero-slim" style="background: linear-gradient(135deg, #DB2777 0%, #1A4A8A 100%);">
+    <h1 class="page-title">Smile Makeover Studio</h1>
+    <p class="page-subtitle">See the transformative power of our Aesthetic Dentistry department.</p>
+  </div>
+
+  <div class="inner-content">
+    <div style="text-align:center; max-width:800px; margin:0 auto;">
+        <h2 style="color:var(--brand-blue); margin-bottom:1rem;">Teeth Whitening & Veneers</h2>
+        <p style="color:var(--text-secondary); margin-bottom:2rem;">Use the slider below to compare Before and After transformations.</p>
+        
+        <!-- CSS-Only Image Comparison Slider Mockup -->
+        <div style="position:relative; width:100%; height:400px; background:#ddd; border-radius:var(--radius-lg); overflow:hidden; border:4px solid white; box-shadow:0 10px 30px rgba(0,0,0,0.1);">
+            <!-- Before Image (Placeholder) -->
+            <div style="position:absolute; top:0; left:0; width:100%; height:100%; background:#eeddbb; display:flex; align-items:center; justify-content:flex-end; padding:2rem;">
+                <h3 style="color:#a87c38; font-size:2rem; user-select:none;">BEFORE 😟</h3>
+            </div>
+            
+            <!-- After Image (Placeholder) Clipped by slider -->
+            <div id="after-layer" style="position:absolute; top:0; left:0; width:50%; height:100%; background:white; display:flex; align-items:center; justify-content:flex-start; padding:2rem; overflow:hidden; border-right:4px solid var(--brand-red);">
+                <h3 style="color:var(--brand-blue); font-size:2rem; user-select:none; white-space:nowrap;">AFTER 🤩</h3>
+            </div>
+            
+            <!-- Range Slider -->
+            <input type="range" min="0" max="100" value="50" id="slider" style="position:absolute; top:50%; left:0; width:100%; transform:translateY(-50%); z-index:10; opacity:0; cursor:ew-resize;" oninput="updateSlider()">
+        </div>
+        
+        <a href="contact.html#appointment" class="btn btn-orange-lg" style="margin-top: 3rem;">Consult Our Cosmetic Dental Experts</a>
+    </div>
+  </div>
+
+  <footer class="main-footer" style="padding: 2rem; background: #0A1628; color: white; text-align: center;">
+    <p>&copy; 2026 Rajarajeswari Dental College &amp; Hospital. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function updateSlider() {
+        const val = document.getElementById('slider').value;
+        document.getElementById('after-layer').style.width = val + '%';
+    }
+  </script>
+</body>
+</html>
